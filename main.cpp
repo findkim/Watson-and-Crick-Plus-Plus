@@ -9,6 +9,7 @@
 //
 
 #include "Sequence.h"
+#include "Alignment.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -21,6 +22,7 @@ int main() {
 	Sequence test("NM_000927.4.fas");
 	test.print();
 	test.printSeq();
-
+    Alignment testAlign("nucSampleAlignment.fa");
+    testAlign.printAlignment();
 	return 0;
 }

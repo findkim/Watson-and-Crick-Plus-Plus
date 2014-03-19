@@ -16,9 +16,9 @@
 using namespace std;
 
 class Sequence{
-
-	public:
-    Sequence(char *);			// Constructor takes name of FASTA file
+public:
+    Sequence(string, string, string);			// Constructor with parameter: name, description and sequence.
+    Sequence(char *filename);  // Constructor loading sequence from file.
     void addGap(int); 		// add gap after int
     char operator[](int);
     void print();					// Prints name, description, legnth.
@@ -29,11 +29,11 @@ class Sequence{
     string getSeqDescription();
     int getSeqLength();
     char *location_ptr;			// Stores location on sequence
-
-	private:
+private:
     string seqName;				// Reference number for DNA/Protein sequence
     string seqDescription;// Description of seqeuence
-    list<char> seq;				// Sequence of nucleotides or amino acids
+    // ** I got rid of the compiling error by making seq a string instead of list. 
+    string seq;				// Sequence of nucleotides or amino acids
     int seqLength;				// Length of string--converted string to int
 };
 #endif /* defined(____Sequence__) */

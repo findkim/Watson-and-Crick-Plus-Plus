@@ -19,6 +19,12 @@ const int FASTA_DESCRIPTION_LINE_NUM_ARG = 5;
 
 using namespace std;
 
+Sequence :: Sequence(string name, string description, string sequence){
+    seqName = name;
+    seqDescription = description;
+    seq = sequence;
+    seqLength = seq.size();
+}
 Sequence :: Sequence(char *filename){
 
 	int lengthCounter = 0;
@@ -47,7 +53,7 @@ Sequence :: Sequence(char *filename){
 			
 			stringstream split(line);	// Parses line into chars
 			while (split >> value) {
-				seq.push_back(value);		// Adds each char value to list
+				seq+=value;		// Adds each char value to list
 				lengthCounter++;				// Counts length of nucleotides/amino acids
 			}
 		}
@@ -87,30 +93,23 @@ void Sequence::print(){
 
 // Prints sequence
 void Sequence::printSeq(){
+    cout << seq << endl;
 
-	ostream_iterator<char> output (cout, "");
+	/*ostream_iterator<char> output (cout, "");
 	copy (seq.begin(), seq.end(), output);
-	cout << endl;
+	cout << endl; */
 }
 
-
-/*
-// I'm getting compile errors from trying to overload []
 char Sequence :: operator[](int i){
-//    if (i<0 || i>seq.size()) {
+    if (i<0 || i>seq.size()) {
 		if (i < 0 || i >= getSeqLength()) {
-//        throw out_of_range("Subscript out of range");
+            throw out_of_range("Subscript out of range");
     		throw "Subscript out of range";
+        }
     }
     return seq[i];
 }
-*/
 
-
-/*
-// I chose STL lists because it works best inserting in the middle
-// However, you need iterators to properly insert in the middle
 void Sequence :: addGap(int i){
-    seq.insert(i+1,'-');
+    seq.insert(i+1,"-");
 }
-*/
