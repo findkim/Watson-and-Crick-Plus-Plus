@@ -1,7 +1,7 @@
 all: main
 
-main: main.o Sequence.o Alignment.o
-	g++ main.o Sequence.o Alignment.o -o main
+main: main.o Sequence.o ExtractSequence.o
+	g++ main.o Sequence.o ExtractSequence.o -o main
 
 main.o: main.cpp
 	g++ -c main.cpp
@@ -9,8 +9,8 @@ main.o: main.cpp
 Sequence.o: Sequence.cpp
 	g++ -c Sequence.cpp
 
-Alignment.o: Alignment.cpp
-	g++ -c Alignment.cpp
+ExtractSequence.o: ExtractSequence.cpp
+	g++ -c ExtractSequence.cpp
 
 clean:
 	rm -f *.o main
