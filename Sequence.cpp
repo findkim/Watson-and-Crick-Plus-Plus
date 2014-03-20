@@ -25,7 +25,7 @@ Sequence :: Sequence(string name, string description, string sequence){
     seq = sequence;
     seqLength = seq.size();
 }
-Sequence :: Sequence(char *filename){
+/*Sequence :: Sequence(char *filename){
 
 	int lengthCounter = 0;
 	int i = 0;
@@ -64,7 +64,7 @@ Sequence :: Sequence(char *filename){
 	file.close();
 	cout << "Done reading " << filename << endl;
     
-}
+} */
 
 
 string Sequence::getSeqName(){
@@ -85,7 +85,7 @@ int Sequence::getSeqLength(){
 // Prints reference number, description, seq length
 void Sequence::print(){
 
-	cout << "The reference number is " << getSeqName() << endl;
+	cout << "The sequence name is: " << getSeqName() << endl;
 	cout << "The sequence description: " << getSeqDescription() << endl;
 	cout << "The sequence length is " << getSeqLength() << endl;
 }

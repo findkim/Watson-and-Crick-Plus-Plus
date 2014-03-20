@@ -9,7 +9,7 @@
 //
 
 #include "Sequence.h"
-#include "Alignment.h"
+#include "ExtractSequence.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -18,11 +18,9 @@
 using namespace std;
 
 int main() {
-
-	Sequence test("NM_000927.4.fas");
-	test.print();
-	test.printSeq();
-    Alignment testAlign("nucSampleAlignment.fa");
-    testAlign.printAlignment();
+	ExtractSequence test("NM_000927.4.fas");
+	test.printSequences();
+    ExtractSequence testSequences("nucSampleAlignment.fa");
+    testSequences.printSequences();
 	return 0;
 }
