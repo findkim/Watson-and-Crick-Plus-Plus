@@ -103,7 +103,6 @@ void Sequence::printSeq(){
 char Sequence :: operator[](int i){
     if (i<0 || i>seq.size()) {
 		if (i < 0 || i >= getSeqLength()) {
-            throw out_of_range("Subscript out of range");
     		throw "Subscript out of range";
         }
     }
