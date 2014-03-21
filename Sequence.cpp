@@ -25,47 +25,6 @@ Sequence :: Sequence(string name, string description, string sequence){
     seq = sequence;
     seqLength = seq.size();
 }
-/*Sequence :: Sequence(char *filename){
-
-	int lengthCounter = 0;
-	int i = 0;
-
-	cout << filename << endl;		// Prints filename
-	ifstream file;
-	file.open(filename);	// Opens file
-	
-	while (!file.eof()) { // Reads until reaches end of file
-	
-		string line;
-		char value;
-		
-		getline(file, line);									// First line of FASTA file		
-		istringstream ss(line);
-		string token;
-		
-		while(getline(ss, token, '|')) {			// Parses first line of FASTA file
-			if (i == 3) seqName = token;				// 3rd token is ref number
-			if (i == 4) seqDescription = token;	// 4th token is seq description
-			i++;
-		}
-
-		while (getline(file, line)) {					// The remaining lines is the sequence
-			
-			stringstream split(line);	// Parses line into chars
-			while (split >> value) {
-				seq+=value;		// Adds each char value to list
-				lengthCounter++;				// Counts length of nucleotides/amino acids
-			}
-		}
-	}
-
-	seqLength = lengthCounter;
-
-	file.close();
-	cout << "Done reading " << filename << endl;
-    
-} */
-
 
 string Sequence::getSeqName(){
 	return seqName;

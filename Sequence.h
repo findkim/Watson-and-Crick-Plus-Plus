@@ -18,7 +18,6 @@ using namespace std;
 class Sequence{
 public:
     Sequence(string, string, string);			// Constructor with parameter: name, description and sequence.
-    //Sequence(char *filename);  // Constructor loading sequence from file.
     void addGap(int); 		// add gap after int
     char operator[](int);
     void print();					// Prints name, description, legnth.
