@@ -10,6 +10,7 @@
 
 #include "Sequence.h"
 #include "ExtractSequence.h"
+#include "CodonFrequency.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -22,5 +23,9 @@ int main() {
 	test.printSequences();
     ExtractSequence testSequences("nucSampleAlignment.fa");
     testSequences.printSequences();
+  
+  // testing to verify the frequency calculations
+  CodonFrequency testFreq("empty");
+  testFreq.print();
 	return 0;
 }

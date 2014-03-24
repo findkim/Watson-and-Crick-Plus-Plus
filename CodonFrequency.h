@@ -9,6 +9,9 @@
 	
 */
 
+#ifndef CODONFREQUENCY_H
+#define CODONFREQUENCY_H
+
 #include <iostream>
 #include <vector>
 #include <iterator>
@@ -17,11 +20,12 @@
 
 using namespace std;
 
-CodonFrequency::CodonFrequency(string) {
+class CodonFrequency {
 
 	public:
 		CodonFrequency(string);
 		int getCodonCount;
+		void print();							// Prints codon frequency
 	
 	private:
 		vector< pair<string, int> > codon;
@@ -31,4 +35,6 @@ CodonFrequency::CodonFrequency(string) {
 		int codonCount; 	
 			// Total number of codons in sequence used to calculate frequency
 
-}
+};
+
+#endif

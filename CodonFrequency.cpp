@@ -11,34 +11,36 @@
 
 #include <iostream>
 #include "Sequence.h"
+#include "CodonFrequency.h"
 #include <vector>
 #include <iterator>
 #include <string>
+//#include <initializer_list>
 
 using namespace std;
 
 CodonFrequency::CodonFrequency(string seq) {
 
-	vector< pair<string,int>> temp = {
-	
+	//vector< pair<string,int> > temp = {
+	codon = {
 		// Codon A
-		{GCT,0}, {GCC,0}, {GCA,0}, {GCG,0},
+		{"GCT",0}, {"GCC",0}, {"GCA",0}, {"GCG",0},
 	
 		// Codon C
-		{TGT,0},
-		{GAT,0},
+		{"TGT",0},
+		{"GAT",0},
 	
 		// Codon D
-		{GAT},
-		{GAC},
+		{"GAT",0},
+		{"GAC",0},
 	
 		// Codon E
-		{GAA,0},
-		{GAG,0},
+		{"GAA",0},
+		{"GAG",0},
 
 		// COdon F
-		{TTT,0},
-		{TTC,0}
+		{"TTT",0},
+		{"TTC",0}
 	};
 /*
 	       'TTT' => 'F', 'TTC' => 'F', 'GGT' => 'G', 'GGC' => 'G', 'GGA' => 'G',
@@ -53,4 +55,13 @@ CodonFrequency::CodonFrequency(string seq) {
 	       'GTC' => 'V', 'GTA' => 'V', 'GTG' => 'V', 'TGG' => 'W', 'TAT' => 'Y',
 	       'TAC' => 'Y', 'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
+//	codon = temp;
+}
+
+void CodonFrequency::print() {
+
+	for (int i = 0; i < 12; i++) {
+		cout << codon[i].first << " " << codon[i].second;
+		cout << endl;
+	}
 }
