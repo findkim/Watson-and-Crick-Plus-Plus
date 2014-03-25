@@ -25,9 +25,10 @@ class CodonFrequency {
 	public:
 		CodonFrequency(string);			
 			// Initializes codon vector with codon triplets and # of occurances
-		int getCodonCount();				// Getter for codonCount
+		float getCodonCount();				// Getter for codonCount
 		void set_codonCount(int);		// Setter for codonCount
 		void incrOccurance(string);	// Increments codon occurance & counts # of codons
+		void calcFreq(string);						// Calculates freq -- #ofOcc/codonCount
 		void printFreq();								// Prints codon frequency
 	
 	private:

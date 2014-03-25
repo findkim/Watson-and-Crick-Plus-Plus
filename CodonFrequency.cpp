@@ -18,6 +18,8 @@
 
 using namespace std;
 
+const int NUM_TYPE_OF_CODONS = 64;
+
 CodonFrequency::CodonFrequency(string seq) {
 
 	//vector< pair<string,int> > temp = {
@@ -102,6 +104,11 @@ CodonFrequency::CodonFrequency(string seq) {
 	};
 	
 	incrOccurance(seq);
+	
+	for (int i = 0; i < codonCount; i++)
+		codonFreqSeq.push_back(0.0);
+
+	calcFreq(seq);
 
 //	cout << "The codon count is " << codonCount << endl;
 }
@@ -111,7 +118,7 @@ CodonFrequency::CodonFrequency(string seq) {
 // Increments the number of codons in sequence with setter method
 void CodonFrequency::incrOccurance(string seq) {
 
-	for (int i = 1, count = 1; i <= seq.size()-3; i+=3, count++) {
+	for (int i = 1, count = 1; i < seq.size(); i+=3, count++) {
 	// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
 	// instead of i starting at 0: 0, 3, 6 -- which skips position 3
 	
@@ -137,10 +144,37 @@ void CodonFrequency::set_codonCount(int c) {
 	codonCount = c;
 }
 
-int CodonFrequency::getCodonCount() {
-	return codonCount;
+
+// Getter for codonCount -- used for calculating freq
+float CodonFrequency::getCodonCount() {
+	return (codonCount + 0.0);
 }
 
+
+// Calculates freq -- #ofOcc/codonCount
+void CodonFrequency::calcFreq(string seq) {
+	
+	for (int i = 1, count = 0; i < seq.size(); i+=3, count++) {
+	// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
+	// instead of i starting at 0: 0, 3, 6 -- which skips position 3
+	
+		string triplet; // set of 3 characters from sequence
+		triplet.append(seq,i-1,3);	// sets string to triplet of char at position i
+
+		// For every triplet in seq, it matches with one codon
+		// Calculates freq for that codon, then sets into codonFreqSeq vector
+		for (int j = 0; j < codon.size(); j++)
+			if (triplet == codon[j].first) {
+		
+				codonFreqSeq[count] = (codon[j].second/getCodonCount());
+
+//				cout << triplet << " " << codon[j].second << "/" << getCodonCount() << " = " << codon[j].second/getCodonCount() << endl;
+			}
+	}
+}
+
+
+// Prints codon and # of occurances & freq
 void CodonFrequency::printFreq() {
 
 	for (int i = 0; i < codon.size(); i++) {
@@ -148,4 +182,7 @@ void CodonFrequency::printFreq() {
 		cout << codon[i].first << " " << codon[i].second << "		";
 	}
 	cout << endl;
+	for (int i = 0; i < getCodonCount(); i++) {
+		cout << codonFreqSeq[i] << " ";
+	}
 }

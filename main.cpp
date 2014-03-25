@@ -21,12 +21,14 @@ using namespace std;
 int main() {
 //	ExtractSequence test("NM_000927.4.fas");
 //	test.printSequences();
-    ExtractSequence testSequences("nucSampleAlignment.fa");
-    testSequences.printSequences();
+//    ExtractSequence testSequences("nucSampleAlignment.fa");
+//    testSequences.printSequences();
   
   // testing to verify the frequency calculations
-  ExtractSequence codFreqTest("Ecol_test.fasta");
-  codFreqTest.printSequences();
+//  ExtractSequence codFreqTest("Ecol_test.fasta");
+
+	Sequence codFreqTest("test", "empty", "ATGCCGGGCAACAGCCCG");
+  codFreqTest.printSeq();
 
 //  CodonFrequency testFreq("ATGAAACAGAAAATG");
 //  testFreq.print();
