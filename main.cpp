@@ -25,7 +25,7 @@ int main() {
     testSequences.printSequences();
   
   // testing to verify the frequency calculations
-  CodonFrequency testFreq("empty");
+  CodonFrequency testFreq("ATGAAACAGAAAATG");
   testFreq.print();
 	return 0;
 }

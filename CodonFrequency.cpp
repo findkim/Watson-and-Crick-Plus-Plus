@@ -15,7 +15,6 @@
 #include <vector>
 #include <iterator>
 #include <string>
-//#include <initializer_list>
 
 using namespace std;
 
@@ -23,26 +22,9 @@ CodonFrequency::CodonFrequency(string seq) {
 
 	//vector< pair<string,int> > temp = {
 	codon = {
-		// Codon A
-		{"GCT",0}, {"GCC",0}, {"GCA",0}, {"GCG",0},
-	
-		// Codon C
-		{"TGT",0},
-		{"GAT",0},
-	
-		// Codon D
-		{"GAT",0},
-		{"GAC",0},
-	
-		// Codon E
-		{"GAA",0},
-		{"GAG",0},
-
-		// COdon F
-		{"TTT",0},
-		{"TTC",0}
-	};
-/*
+	/*
+				 'GCT' => 'A', 'GCC' => 'A', 'GCA' => 'A', 'GCG' => 'A', 'TGT' => 'C',
+	       'TGC' => 'C', 'GAT' => 'D', 'GAC' => 'D', 'GAA' => 'E', 'GAG' => 'E',
 	       'TTT' => 'F', 'TTC' => 'F', 'GGT' => 'G', 'GGC' => 'G', 'GGA' => 'G',
 	       'GGG' => 'G', 'CAT' => 'H', 'CAC' => 'H', 'ATT' => 'I', 'ATC' => 'I',
 	       'ATA' => 'I', 'AAA' => 'K', 'AAG' => 'K', 'TTG' => 'L', 'TTA' => 'L',
@@ -55,13 +37,115 @@ CodonFrequency::CodonFrequency(string seq) {
 	       'GTC' => 'V', 'GTA' => 'V', 'GTG' => 'V', 'TGG' => 'W', 'TAT' => 'Y',
 	       'TAC' => 'Y', 'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
-//	codon = temp;
+		// Codon A
+		{"GCT",0}, {"GCC",0}, {"GCA",0}, {"GCG",0},
+	
+		// Codon C
+		{"TGT",0}, {"GAT",0},
+	
+		// Codon D
+		{"GAT",0}, {"GAC",0},
+	
+		// Codon E
+		{"GAA",0}, {"GAG",0},
+
+		// Codon F
+		{"TTT",0}, {"TTC",0},
+		
+		// Codon G
+		{"GGT",0}, {"GGC",0}, {"GGA",0}, {"GGG",0},
+		
+		// Codon H
+		{"CAT",0}, {"CAC",0},
+		
+		// Codon I
+		{"ATT",0}, {"ATC",0}, {"ATA",0},
+		
+		// Codon K
+		{"AAA",0}, {"AAG",0},
+		
+		// Codon L
+		{"TTG",0}, {"TTA",0}, {"CTT",0}, {"CTC",0}, {"CTA",0}, {"CTG",0},
+				
+		// Codon M
+		{"ATG",0},
+		
+		// Codon N
+		{"AAT",0}, {"AAC",0},
+		
+		// Codon P
+		{"CCT",0}, {"CCC",0}, {"CCA",0}, {"CCG",0},
+		
+		// Codon Q
+		{"CAA",0}, {"CAG",0},
+
+		// Codon R
+		{"CGT",0}, {"CGC",0}, {"CGA",0}, {"CGG",0}, {"AGA",0}, {"AGG",0},
+		
+		// Codon S
+		{"TCT",0}, {"TCC",0}, {"TCA",0}, {"TGC",0}, {"AGT",0}, {"AGC",0},
+		
+		// Codon T
+		{"ACT",0}, {"ACC",0}, {"ACA",0}, {"ACG",0},
+		
+		// Codon V
+		{"GTT",0}, {"GTC",0}, {"GTA",0}, {"GTG",0},
+		
+		// Codon W
+		{"TGG",0},
+		
+		// Codon Y
+		{"TAT",0}, {"TAC",0},
+		
+		// Stop Codon
+		{"TAA",0}, {"TAG",0}, {"TGA",0},
+	};
+	
+	incrOccurance(seq);
+
+	cout << "The codon count is " << codonCount << endl;
+}
+
+
+// Increments codon occurance for every triplet in the sequence
+// Increments the number of codons in sequence with setter method
+void CodonFrequency::incrOccurance(string seq) {
+
+	for (int i = 1, count = 1; i <= seq.size()-3; i+=3, count++) {
+	// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
+	// instead of i starting at 0: 0, 3, 6 -- which skips position 3
+	
+		string triplet; // set of 3 characters from sequence
+		triplet.append(seq,i-1,3);	// sets string to triplet of char at position i
+		
+		cout << triplet << " ";
+
+		// Increments # of occurances to corresponding string/codon
+		for (int j = 0; j < codon.size(); j++) {
+			if (triplet == codon[j].first)
+				codon[j].second++;
+		}
+		
+		set_codonCount(count);	// Increments with setter; codonCount is private data member
+	}
+	cout << endl;
+}
+
+
+// Setter for codonCount -- used for incrementing # of codons in sequence in incrOcc method
+void CodonFrequency::set_codonCount(int c) {
+	codonCount = c;
+}
+
+int CodonFrequency::getCodonCount() {
+	return codonCount;
 }
 
 void CodonFrequency::print() {
 
-	for (int i = 0; i < 12; i++) {
-		cout << codon[i].first << " " << codon[i].second;
-		cout << endl;
+	for (int i = 0; i < codon.size(); i++) {
+		if (i%5 == 4) cout << endl;
+		cout << codon[i].first << " " << codon[i].second << "		";
 	}
+	cout << endl;
 }

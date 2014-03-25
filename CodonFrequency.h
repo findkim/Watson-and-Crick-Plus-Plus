@@ -24,7 +24,9 @@ class CodonFrequency {
 
 	public:
 		CodonFrequency(string);
-		int getCodonCount;
+		int getCodonCount();
+		void set_codonCount(int);
+		void incrOccurance(string);	// Increments codon occurance & counts # of codons
 		void print();							// Prints codon frequency
 	
 	private:
