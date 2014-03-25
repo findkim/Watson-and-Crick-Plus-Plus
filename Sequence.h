@@ -10,8 +10,8 @@
 #define SEQUENCE_H
 
 #include <iostream>
-#include <list>
 #include <string>
+#include "CodonFrequency.h" // Composition
 
 using namespace std;
 
@@ -34,5 +34,6 @@ private:
     // ** I got rid of the compiling error by making seq a string instead of list. 
     string seq;				// Sequence of nucleotides or amino acids
     int seqLength;				// Length of string--converted string to int
+    CodonFrequency *codonFreq;	// Composition; calculates codon frequency for that seq (not for alignments)
 };
 #endif /* defined(____Sequence__) */

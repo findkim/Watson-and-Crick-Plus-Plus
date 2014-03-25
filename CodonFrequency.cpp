@@ -103,7 +103,7 @@ CodonFrequency::CodonFrequency(string seq) {
 	
 	incrOccurance(seq);
 
-	cout << "The codon count is " << codonCount << endl;
+//	cout << "The codon count is " << codonCount << endl;
 }
 
 
@@ -118,7 +118,7 @@ void CodonFrequency::incrOccurance(string seq) {
 		string triplet; // set of 3 characters from sequence
 		triplet.append(seq,i-1,3);	// sets string to triplet of char at position i
 		
-		cout << triplet << " ";
+//		cout << triplet << " ";
 
 		// Increments # of occurances to corresponding string/codon
 		for (int j = 0; j < codon.size(); j++) {
@@ -141,7 +141,7 @@ int CodonFrequency::getCodonCount() {
 	return codonCount;
 }
 
-void CodonFrequency::print() {
+void CodonFrequency::printFreq() {
 
 	for (int i = 0; i < codon.size(); i++) {
 		if (i%5 == 4) cout << endl;

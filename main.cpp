@@ -19,13 +19,16 @@
 using namespace std;
 
 int main() {
-	ExtractSequence test("NM_000927.4.fas");
-	test.printSequences();
+//	ExtractSequence test("NM_000927.4.fas");
+//	test.printSequences();
     ExtractSequence testSequences("nucSampleAlignment.fa");
     testSequences.printSequences();
   
   // testing to verify the frequency calculations
-  CodonFrequency testFreq("ATGAAACAGAAAATG");
-  testFreq.print();
+  ExtractSequence codFreqTest("Ecol_test.fasta");
+  codFreqTest.printSequences();
+
+//  CodonFrequency testFreq("ATGAAACAGAAAATG");
+//  testFreq.print();
 	return 0;
 }

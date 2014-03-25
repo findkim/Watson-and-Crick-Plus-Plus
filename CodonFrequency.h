@@ -23,11 +23,12 @@ using namespace std;
 class CodonFrequency {
 
 	public:
-		CodonFrequency(string);
-		int getCodonCount();
-		void set_codonCount(int);
+		CodonFrequency(string);			
+			// Initializes codon vector with codon triplets and # of occurances
+		int getCodonCount();				// Getter for codonCount
+		void set_codonCount(int);		// Setter for codonCount
 		void incrOccurance(string);	// Increments codon occurance & counts # of codons
-		void print();							// Prints codon frequency
+		void printFreq();								// Prints codon frequency
 	
 	private:
 		vector< pair<string, int> > codon;

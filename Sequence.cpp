@@ -7,15 +7,10 @@
 //
 
 #include "Sequence.h"
+#include "CodonFrequency.h"	// Composition, each seq can calculate codon freq
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
-#include <list>			// STL lists
 #include <vector>
-#include <iterator>	// ostream iterators
-
-const int FASTA_DESCRIPTION_LINE_NUM_ARG = 5;
 
 using namespace std;
 
@@ -24,6 +19,11 @@ Sequence :: Sequence(string name, string description, string sequence){
     seqDescription = description;
     seq = sequence;
     seqLength = seq.size();
+    
+   	// Does not initialize codonFreq for alignments
+    if (seq.find("-"))
+    	codonFreq = new CodonFrequency (seq);
+	  else codonFreq = NULL;
 }
 
 string Sequence::getSeqName(){
@@ -47,6 +47,12 @@ void Sequence::print(){
 	cout << "The sequence name is: " << getSeqName() << endl;
 	cout << "The sequence description: " << getSeqDescription() << endl;
 	cout << "The sequence length is " << getSeqLength() << endl;
+	
+	// Does not print for alignments
+	if (codonFreq) {
+		codonFreq->printFreq();
+		cout << endl;
+	}
 }
 
 
