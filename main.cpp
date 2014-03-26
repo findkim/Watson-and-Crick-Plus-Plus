@@ -18,12 +18,12 @@ using namespace std;
 int main() {
 //	ExtractSequence test("NM_000927.4.fas");
 //	test.printSequences();
-    ExtractSequence testSequences("nucSampleAlignment.fa");
-    testSequences.printSequences();
+//    ExtractSequence testSequences("nucSampleAlignment.fa");
+//    testSequences.printSequences();
   
   cout << endl << endl << endl << "Codon Frequency" << endl << endl;
   // testing to verify the frequency calculations
-  ExtractSequence codFreqTest("Ecol_test.fasta");
+  ExtractSequence codFreqTest("Ecol_test.fasta.short");
 
 //	Sequence codFreqTest("test", "empty", "ATGCCGGGCAACAGCCCG");
   codFreqTest.printSequences();

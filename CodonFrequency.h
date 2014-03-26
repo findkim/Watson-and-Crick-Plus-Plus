@@ -12,6 +12,7 @@
 #ifndef CODONFREQUENCY_H
 #define CODONFREQUENCY_H
 
+#include "Sequence.h"
 #include <iostream>
 #include <vector>
 #include <iterator>
@@ -23,13 +24,14 @@ using namespace std;
 class CodonFrequency {
 
 	public:
-		CodonFrequency(string=0);			
+		CodonFrequency(vector<Sequence>);			
 			// Initializes codon vector with codon triplets and # of occurances
 		float getCodonCount();				// Getter for codonCount
 		void set_codonCount(int);		// Setter for codonCount
-		void incrOccurance(string);	// Increments codon occurance & counts # of codons
-		void calcFreq(string);						// Calculates freq -- #ofOcc/codonCount
-		void printFreq();								// Prints codon frequency
+		void incrOccurance(vector<Sequence>);	// Increments codon occurance & counts # of codons
+		void calcFreq(vector<Sequence>);						// Calculates freq -- #ofOcc/codonCount
+		void printCodonCount();			// Prints number of occurances and count
+		void printFreq();						// Prints codon frequency for a seq
 	
 	private:
 		vector< pair<string, int> > codon;

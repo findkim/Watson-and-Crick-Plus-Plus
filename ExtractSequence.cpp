@@ -8,6 +8,7 @@
 
 #include "ExtractSequence.h"
 #include "Sequence.h"
+#include "CodonFrequency.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -38,13 +39,41 @@ ExtractSequence :: ExtractSequence(char *filename){
     }
     Sequence seq (headers[0],headers[1],sequence);
     Sequences.push_back(seq);
+    
+   	// Does not initialize codonFreq for alignments
+   	// Removes sequences that are divisible by 3
+    if (sequence.find("-")) {
+    	for (int i = 0; i < Sequences.size(); i++) {
+    		if (Sequences[i].getSeqLength()%3 != 0) {
+    			Sequences.erase (Sequences.begin()+i);
+    			cout <<Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
+    		}
+    	}
+    	codonFreq = new CodonFrequency (Sequences);
+	  } else codonFreq = NULL;
 }
+
+ExtractSequence :: ~ExtractSequence() {
+	delete codonFreq;
+}
+
 void ExtractSequence :: printSequences(){
     for (int i = 0; i<Sequences.size(); i++) {
         Sequences[i].print();
         Sequences[i].printSeq();
+        if (codonFreq) {
+        	cout << endl;
+        	codonFreq->printFreq();
+        	cout << endl;
+        }
         cout << "-----------------------" << endl;
     }
+		// Does not print for alignments
+		if (codonFreq) {
+			codonFreq->printCodonCount();
+			cout << endl;
+			cout << "-----------------------" << endl;
+		}
     cout << "Number of sequences: " << Sequences.size() << endl;
 }
 void ExtractSequence :: getHeader(string line){

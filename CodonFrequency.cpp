@@ -20,7 +20,7 @@ using namespace std;
 
 const int NUM_TYPE_OF_CODONS = 64;
 
-CodonFrequency::CodonFrequency(string seq) {
+CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 
 	//vector< pair<string,int> > temp = {
 	codon = {
@@ -116,14 +116,15 @@ CodonFrequency::CodonFrequency(string seq) {
 
 // Increments codon occurance for every triplet in the sequence
 // Increments the number of codons in sequence with setter method
-void CodonFrequency::incrOccurance(string seq) {
+void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 
-	for (int i = 1, count = 1; i < seq.size(); i+=3, count++) {
+for (int k = 0; k < seq.size(); k++) {
+	for (int i = 1, count = 1; i < seq[k].getSeqLength(); i+=3, count++) {
 	// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
 	// instead of i starting at 0: 0, 3, 6 -- which skips position 3
 	
 		string triplet; // set of 3 characters from sequence
-		triplet.append(seq,i-1,3);	// sets string to triplet of char at position i
+		triplet.append(seq[k].getSeq(),i-1,3);	// sets string to triplet of char at position i
 		
 //		cout << triplet << " ";
 
@@ -135,6 +136,7 @@ void CodonFrequency::incrOccurance(string seq) {
 		
 		set_codonCount(count);	// Increments with setter; codonCount is private data member
 	}
+}
 	cout << endl;
 }
 
@@ -152,37 +154,46 @@ float CodonFrequency::getCodonCount() {
 
 
 // Calculates freq -- #ofOcc/codonCount
-void CodonFrequency::calcFreq(string seq) {
-	
-	for (int i = 1, count = 0; i < seq.size(); i+=3, count++) {
+void CodonFrequency::calcFreq(vector <Sequence> seq) {
+
+for (int k = 0; k < seq.size(); k++) {
+	for (int i = 1, count = 0; i < seq[k].getSeqLength(); i+=3, count++) {
 	// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
 	// instead of i starting at 0: 0, 3, 6 -- which skips position 3
 	
 		string triplet; // set of 3 characters from sequence
-		triplet.append(seq,i-1,3);	// sets string to triplet of char at position i
+		triplet.append(seq[k].getSeq(),i-1,3);	// sets string to triplet of char at position i
 
 		// For every triplet in seq, it matches with one codon
 		// Calculates freq for that codon, then sets into codonFreqSeq vector
 		for (int j = 0; j < codon.size(); j++)
 			if (triplet == codon[j].first) {
 		
-				codonFreqSeq[count] = (codon[j].second/getCodonCount());
+				codonFreqSeq[count] = (codon[j].second/getCodonCount()*1000);
 
 //				cout << triplet << " " << codon[j].second << "/" << getCodonCount() << " = " << codon[j].second/getCodonCount() << endl;
 			}
 	}
 }
+}
 
 
-// Prints codon and # of occurances & freq
-void CodonFrequency::printFreq() {
+// Prints # of occurances for each codon for the vector of sequences
+void CodonFrequency::printCodonCount() {
 
 	for (int i = 0; i < codon.size(); i++) {
 		if (i%5 == 4) cout << endl;
 		cout << codon[i].first << " " << codon[i].second << "		";
 	}
 	cout << endl;
+	cout << "The total number of codons is " << getCodonCount() << endl;
+}
+
+// Prints frequency for the sequence
+void CodonFrequency::printFreq() {
+
 	for (int i = 0; i < getCodonCount(); i++) {
 		cout << codonFreqSeq[i] << " ";
 	}
+
 }
