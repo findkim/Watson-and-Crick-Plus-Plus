@@ -60,8 +60,12 @@ void Sequence::print(){
 void Sequence::printSeq(){
     cout << seq << endl;
 
-	cout << "The codon count is " << codonFreq->getCodonCount() << endl;
-	codonFreq->printFreq();
+	// Does not print for alignments
+	if (codonFreq) {
+		cout << "The codon count is " << codonFreq->getCodonCount() << endl;
+		codonFreq->printFreq();
+		cout << endl;
+	}
 
 	/*ostream_iterator<char> output (cout, "");
 	copy (seq.begin(), seq.end(), output);

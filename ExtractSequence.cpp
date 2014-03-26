@@ -7,6 +7,7 @@
 //
 
 #include "ExtractSequence.h"
+#include "Sequence.h"
 #include <iostream>
 #include <string>
 #include <sstream>
