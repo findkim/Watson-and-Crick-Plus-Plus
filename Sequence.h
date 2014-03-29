@@ -26,6 +26,7 @@ public:
     string getSeq();
     string getSeqDescription();
     int getSeqLength();
+    int getNumCodon();			// Calculates the number of codons if seq is of proper length
     char *location_ptr;			// Stores location on sequence
     
 private:
@@ -34,6 +35,7 @@ private:
     // ** I got rid of the compiling error by making seq a string instead of list. 
     string seq;				// Sequence of nucleotides or amino acids
     int seqLength;				// Length of string--converted string to int
+    int numCodon;					// Numbers of codons if of proper length (mult of 3)
 //    CodonFrequency *codonFreq;	// Composition; calculates codon frequency for that seq (not for alignments)
 };
 #endif /* defined(____Sequence__) */

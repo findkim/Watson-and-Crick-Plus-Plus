@@ -26,7 +26,7 @@ class CodonFrequency {
 	public:
 		CodonFrequency(vector<Sequence>);			
 			// Initializes codon vector with codon triplets and # of occurances
-		float getCodonCount();				// Getter for codonCount
+		int getCodonCount();				// Getter for codonCount
 		void set_codonCount(int);		// Setter for codonCount
 		void incrOccurance(vector<Sequence>);	// Increments codon occurance & counts # of codons
 		void calcFreq(vector<Sequence>);						// Calculates freq -- #ofOcc/codonCount

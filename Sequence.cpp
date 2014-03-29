@@ -19,11 +19,6 @@ Sequence :: Sequence(string name, string description, string sequence){
     seqDescription = description;
     seq = sequence;
     seqLength = seq.size();
-    
-/*   	// Does not initialize codonFreq for alignments
-    if (seq.find("-"))
-    	codonFreq = new CodonFrequency (seq);
-	  else codonFreq = NULL; */
 }
 
 string Sequence::getSeq(){
@@ -44,6 +39,12 @@ int Sequence::getSeqLength(){
 	return seqLength;
 }
 
+
+int Sequence::getNumCodon(){
+	if (getSeqLength()%3 == 0)
+		return getSeqLength()/3;
+	else return 0;
+}
 
 // Prints reference number, description, seq length
 void Sequence::print(){

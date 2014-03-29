@@ -43,7 +43,7 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 		{"GCT",0}, {"GCC",0}, {"GCA",0}, {"GCG",0},
 	
 		// Codon C
-		{"TGT",0}, {"GAT",0},
+		{"TGT",0}, {"TGC",0},
 	
 		// Codon D
 		{"GAT",0}, {"GAC",0},
@@ -102,11 +102,15 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 		// Stop Codon
 		{"TAA",0}, {"TAG",0}, {"TGA",0},
 	};
-	
+
 	incrOccurance(seq);
 	
-	for (int i = 0; i < codonCount; i++)
-		codonFreqSeq.push_back(0.0);
+	for (int i = 0; i < seq.size(); i++) {	// vector of sequences
+//		cout << "THE NUMBER OF CODON FOR THIS SEQUENCE = " << seq[i].getNumCodon() << endl;
+		for (int j = 0; j < seq[i].getNumCodon(); j++) {
+			codonFreqSeq.push_back(0.0);
+		}
+	}
 
 	calcFreq(seq);
 
@@ -118,25 +122,29 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 // Increments the number of codons in sequence with setter method
 void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 
-for (int k = 0; k < seq.size(); k++) {
-	for (int i = 1, count = 1; i < seq[k].getSeqLength(); i+=3, count++) {
-	// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
-	// instead of i starting at 0: 0, 3, 6 -- which skips position 3
+	int count = 0;
+	for (int k = 0; k < seq.size(); k++) {
+		for (int i = 1; i < seq[k].getSeqLength(); i+=3) {
+		// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
+		// instead of i starting at 0: 0, 3, 6 -- which skips position 3
 	
-		string triplet; // set of 3 characters from sequence
-		triplet.append(seq[k].getSeq(),i-1,3);	// sets string to triplet of char at position i
+			string triplet; // set of 3 characters from sequence
+			triplet.append(seq[k].getSeq(),i-1,3);	// sets string to triplet of char at position i
 		
 //		cout << triplet << " ";
 
-		// Increments # of occurances to corresponding string/codon
-		for (int j = 0; j < codon.size(); j++) {
-			if (triplet == codon[j].first)
-				codon[j].second++;
+			// Increments # of occurances to corresponding string/codon
+			for (int j = 0; j < codon.size(); j++) {
+				if (triplet == codon[j].first) {
+					codon[j].second++;
+					count++;
+//					cout << "The current count is " << count << "\tfor " << codon[j].first << endl;
+				}
+			}
 		}
-		
-		set_codonCount(count);	// Increments with setter; codonCount is private data member
 	}
-}
+	set_codonCount(count);	// Increments with setter; codonCount is private data member
+	cout << endl << "LOOK HERE " << getCodonCount() << endl;
 	cout << endl;
 }
 
@@ -148,8 +156,8 @@ void CodonFrequency::set_codonCount(int c) {
 
 
 // Getter for codonCount -- used for calculating freq
-float CodonFrequency::getCodonCount() {
-	return (codonCount + 0.0);
+int CodonFrequency::getCodonCount() {
+	return (codonCount);
 }
 
 
@@ -169,7 +177,7 @@ for (int k = 0; k < seq.size(); k++) {
 		for (int j = 0; j < codon.size(); j++)
 			if (triplet == codon[j].first) {
 		
-				codonFreqSeq[count] = (codon[j].second/getCodonCount()*1000);
+				codonFreqSeq[count] = (float) codon[j].second/getCodonCount()*1000;
 
 //				cout << triplet << " " << codon[j].second << "/" << getCodonCount() << " = " << codon[j].second/getCodonCount() << endl;
 			}
@@ -183,7 +191,7 @@ void CodonFrequency::printCodonCount() {
 
 	for (int i = 0; i < codon.size(); i++) {
 		if (i%5 == 4) cout << endl;
-		cout << codon[i].first << " " << codon[i].second << "		";
+		cout << codon[i].first << " " << (float) codon[i].second/getCodonCount()*1000 << "(" << codon[i].second << ")  ";
 	}
 	cout << endl;
 	cout << "The total number of codons is " << getCodonCount() << endl;
