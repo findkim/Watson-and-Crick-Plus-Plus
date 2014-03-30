@@ -23,6 +23,8 @@ public:
     ~ExtractSequence();
     void printSequences();
     void getHeader(string);
+    void outputfile(char *);
+    vector<Sequence> removeSeq(vector < Sequence >);
     /*void calAlignment();
     void displayAlignment(); */
     

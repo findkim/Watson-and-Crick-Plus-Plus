@@ -11,8 +11,9 @@
 #include "CodonFrequency.h"
 #include <iostream>
 #include <string>
+#include "string.h"
 #include <sstream>
-#include <fstream>
+#include <fstream>	// outfile
 #include <vector>
 using namespace std;
 
@@ -40,18 +41,15 @@ ExtractSequence :: ExtractSequence(char *filename){
     Sequence seq (headers[0],headers[1],sequence);
     Sequences.push_back(seq);
     
-   	// Does not initialize codonFreq for alignments
-   	// Removes sequences that are divisible by 3
-    if (sequence.find("-")) {
-    	for (int i = 0; i < Sequences.size(); i++) {
-    		if (Sequences[i].getSeqLength()%3 != 0) {
-    			Sequences.erase (Sequences.begin()+i);
-    			cout <<Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
-    		}
-    	}
-    	codonFreq = new CodonFrequency (Sequences);
-	  } else codonFreq = NULL;
+    // If file is not file of alignments
+    // Removes sequences that aren't proper length
+		if (sequence.find("-")) {
+    	codonFreq = new CodonFrequency (removeSeq(Sequences));
+	  } else {codonFreq = NULL;}
 	  file.close();
+	  
+	  outputfile(filename);
+
 }
 
 ExtractSequence :: ~ExtractSequence() {
@@ -59,24 +57,61 @@ ExtractSequence :: ~ExtractSequence() {
 		delete codonFreq;
 }
 
+
+// Does not initialize codonFreq for alignments
+// Removes sequences that are divisible by 3
+vector < Sequence > ExtractSequence::removeSeq(vector<Sequence> Sequences){
+
+	for (int i = 0; i < Sequences.size(); i++) {
+  	if (Sequences[i].getSeqLength()%3 != 0) {
+   		Sequences.erase (Sequences.begin()+i);
+   		cout <<Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
+ 		}
+ 	}
+ 	return Sequences;
+}
+
+
+// Creates an output file with the inputfile name with .cf appended
+// Output file contains codon frequencies from sequences
+void ExtractSequence::outputfile(char *filename){
+
+  string ofilename(filename);
+	ofilename.append(".cf");
+
+  ofstream ofile;
+  ofile.open (ofilename.c_str());
+
+  if (ofile.is_open()) {
+	  ofile << "how is the test working";
+	  ofile.close();
+	}
+	else cout << "Unable to open " << ofilename << endl;
+	
+}
+
 void ExtractSequence :: printSequences(){
-//    for (int i = 0; i<Sequences.size(); i++) {
-//        Sequences[i].print();
-//        Sequences[i].printSeq();
-//        if (codonFreq) {
-//        	cout << endl;
-//        	codonFreq->printFreq();
-//        	cout << endl;
-//        }
-//        cout << "-----------------------" << endl;
-//    }
+
 		// Does not print for alignments
 		if (codonFreq) {
 			codonFreq->printCodonCount();
 			cout << endl;
 			cout << "-----------------------" << endl;
+		
+		} else {
+
+		  for (int i = 0; i<Sequences.size(); i++) {
+		      Sequences[i].print();
+		      Sequences[i].printSeq();
+		      if (codonFreq) {
+		      	cout << endl;
+		      	codonFreq->printFreq();
+		      	cout << endl;
+		      }
+		      cout << "-----------------------" << endl;
+		  }
 		}
-    cout << "Number of sequences: " << Sequences.size() << endl;
+//    cout << "Number of sequences: " << Sequences.size() << endl;
 }
 void ExtractSequence :: getHeader(string line){
     int i=0;

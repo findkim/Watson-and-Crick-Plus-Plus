@@ -114,7 +114,6 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 
 	calcFreq(seq);
 
-//	cout << "The codon count is " << codonCount << endl;
 }
 
 
@@ -189,12 +188,12 @@ for (int k = 0; k < seq.size(); k++) {
 // Prints # of occurances for each codon for the vector of sequences
 void CodonFrequency::printCodonCount() {
 
-	for (int i = 0; i < codon.size(); i++) {
-		if (i%5 == 4) cout << endl;
+	for (int i = 0, count = 0; i < codon.size(); i++, ++count) {
+		if (count%4 == 0) cout << endl;
 		cout << codon[i].first << " " << (float) codon[i].second/getCodonCount()*1000 << "(" << codon[i].second << ")  ";
 	}
-	cout << endl;
-	cout << "The total number of codons is " << getCodonCount() << endl;
+//	cout << endl;
+//	cout << "The total number of codons is " << getCodonCount() << endl;
 }
 
 // Prints frequency for the sequence
