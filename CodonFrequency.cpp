@@ -85,7 +85,7 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 		{"CGT",0}, {"CGC",0}, {"CGA",0}, {"CGG",0}, {"AGA",0}, {"AGG",0},
 		
 		// Codon S
-		{"TCT",0}, {"TCC",0}, {"TCA",0}, {"TGC",0}, {"AGT",0}, {"AGC",0},
+		{"TCT",0}, {"TCC",0}, {"TCA",0}, {"TCG",0}, {"AGT",0}, {"AGC",0},
 		
 		// Codon T
 		{"ACT",0}, {"ACC",0}, {"ACA",0}, {"ACG",0},
