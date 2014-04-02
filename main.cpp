@@ -21,14 +21,12 @@ int main() {
 //    ExtractSequence testSequences("nucSampleAlignment.fa");
 //    testSequences.printSequences();
   
-  cout << endl << endl << endl << "Codon Frequency" << endl << endl;
+  cout << "Codon Frequency" << endl;
   // testing to verify the frequency calculations
-  ExtractSequence codFreqTest("Ecol_test.fasta.short");
+//  ExtractSequence codFreqTest("Ecol_test.fasta.short");
 //  ExtractSequence codFreqTest("Ecol_test.fasta");
-//  ExtractSequence codFreqTest("Ypes.fasta");
-//	Sequence codFreqTest("test", "empty", "ATGCCGGGCAACAGCCCG");
-  codFreqTest.printSequences();
-
+  ExtractSequence codFreqTest("Ypes.fasta");
+//  codFreqTest.printSequences();
 
 	return 0;
 }

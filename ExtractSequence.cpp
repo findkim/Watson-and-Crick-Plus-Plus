@@ -65,7 +65,7 @@ vector < Sequence > ExtractSequence::removeSeq(vector<Sequence> Sequences){
 	for (int i = 0; i < Sequences.size(); i++) {
   	if (Sequences[i].getSeqLength()%3 != 0) {
    		Sequences.erase (Sequences.begin()+i);
-   		cout <<Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
+   		cout << Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
  		}
  	}
  	return Sequences;
@@ -83,10 +83,13 @@ void ExtractSequence::outputfile(char *filename){
   ofile.open (ofilename.c_str());
 
   if (ofile.is_open()) {
-	  ofile << "how is the test working";
+
+  	codonFreq->outputFileCodonCount(ofile);
+	  //ofile << "how is the test working";
 	  ofile.close();
-	}
-	else cout << "Unable to open " << ofilename << endl;
+		cout << ofile << " has been created." << endl;
+		
+	} else cout << "Unable to open " << ofilename << endl;
 	
 }
 

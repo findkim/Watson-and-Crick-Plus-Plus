@@ -15,6 +15,7 @@
 #include <vector>
 #include <iterator>
 #include <string>
+#include <fstream> //output file
 
 using namespace std;
 
@@ -130,7 +131,7 @@ void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 			string triplet; // set of 3 characters from sequence
 			triplet.append(seq[k].getSeq(),i-1,3);	// sets string to triplet of char at position i
 		
-//		cout << triplet << " ";
+//		cout << triplet << " ";perator<<
 
 			// Increments # of occurances to corresponding string/codon
 			for (int j = 0; j < codon.size(); j++) {
@@ -143,8 +144,7 @@ void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 		}
 	}
 	set_codonCount(count);	// Increments with setter; codonCount is private data member
-	cout << endl << "LOOK HERE " << getCodonCount() << endl;
-	cout << endl;
+
 }
 
 
@@ -201,6 +201,30 @@ void CodonFrequency::printFreq() {
 
 	for (int i = 0; i < getCodonCount(); i++) {
 		cout << codonFreqSeq[i] << " ";
+	}
+
+}
+
+// Stores frequency and # of occurances for each codon for the vector of sequences in an output file
+void CodonFrequency::outputFileCodonCount(ofstream &ofilename) {
+
+	for (int i = 0, count = 0; i < codon.size(); i++, ++count) {
+		if (count%4 == 0 && count != 0)
+			ofilename << endl;
+		ofilename << codon[i].first;
+		ofilename << " ";
+		ofilename << (float) codon[i].second/getCodonCount()*1000;
+		ofilename << "(";
+		ofilename << codon[i].second;
+		ofilename << ")  ";
+	}
+}
+
+// Stores each sequence as a series of frequencies in an output file
+void CodonFrequency::outputfileFreq(ofstream &ofilename) {
+
+	for (int i = 0; i < getCodonCount(); i++) {
+		ofilename << codonFreqSeq[i] << " ";
 	}
 
 }

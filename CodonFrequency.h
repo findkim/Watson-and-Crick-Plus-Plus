@@ -32,6 +32,10 @@ class CodonFrequency {
 		void calcFreq(vector<Sequence>);						// Calculates freq -- #ofOcc/codonCount
 		void printCodonCount();			// Prints number of occurances and count
 		void printFreq();						// Prints codon frequency for a seq
+		void outputFileCodonCount(ofstream &);	
+			// Spits Codon|Codon Freq|count into output file name string
+		void outputfileFreq(ofstream &);
+			// Spits each sequence as a series of frequencies in an output file
 	
 	private:
 		vector< pair<string, int> > codon;
