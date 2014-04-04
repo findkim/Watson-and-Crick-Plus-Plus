@@ -26,6 +26,7 @@ class CodonFrequency {
 	public:
 		CodonFrequency(vector<Sequence>);			
 			// Initializes codon vector with codon triplets and # of occurances
+		//~CodonFrequency();
 		int getCodonCount();				// Getter for codonCount
 		void set_codonCount(int);		// Setter for codonCount
 		void incrOccurance(vector<Sequence>);	// Increments codon occurance & counts # of codons
@@ -36,9 +37,12 @@ class CodonFrequency {
 			// Spits Codon|Codon Freq|count into output file name string
 		void outputfileFreq(ofstream &);
 			// Spits each sequence as a series of frequencies in an output file
+		void binary(int);
 	
 	private:
 		vector< pair<string, int> > codon;
+		int codonOcc [64];
+		float codonFreq [64];
 			// Stores codon and # of occurances
 		vector <float> codonFreqSeq;
 			// Vector of codon frequencies that correspond with the seq using codon vector

@@ -23,7 +23,6 @@ const int NUM_TYPE_OF_CODONS = 64;
 
 CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 
-	//vector< pair<string,int> > temp = {
 	codon = {
 	/*
 				 'GCT' => 'A', 'GCC' => 'A', 'GCA' => 'A', 'GCG' => 'A', 'TGT' => 'C',
@@ -113,7 +112,7 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 		}
 	}
 
-	calcFreq(seq);
+//	calcFreq(seq);
 
 }
 
@@ -124,15 +123,48 @@ void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 
 	int count = 0;
 	for (int k = 0; k < seq.size(); k++) {
+	
+			string tempStr = seq[k].getSeq();
+//			cout << tempStr << endl;
+
+			for (string::iterator itr = tempStr.begin(), 
+			end = tempStr.end(); itr != end; ++itr) {
+				
+				int binaryRep = 0;
+				// First nucleotide
+				//if (*itr == 'A') binaryRep += 0;					// 00xxxx
+				if (*itr == 'C') binaryRep += 16;						// 01xxxx
+				else if (*itr == 'G') binaryRep += 32;			// 10xxxx
+				else if (*itr == 'T') binaryRep += (32+16);	// 11xxxx
+				
+				// Second nucleotide
+				itr++;
+				//if (*itr == 'A') binaryRep += 0;					// xx00xx
+				if (*itr == 'C') binaryRep += 4;						// xx01xx
+				else if (*itr == 'G') binaryRep += 8;				// xx10xx
+				else if (*itr == 'T') binaryRep += (8+4);		// xx11xx
+				
+				// Third nucleotide
+				itr++;
+				//if (*itr == 'A') binaryRep += 0;					// xxxx00
+				if (*itr == 'C') binaryRep += 1;						// xxxx01
+				else if (*itr == 'G') binaryRep += 2;				// xxxx10
+				else if (*itr == 'T') binaryRep += (2+1);		// xxxx11
+				
+//				cout << "The binary rep is " << binaryRep << endl;
+				codonOcc[binaryRep]++;
+				count++;
+			}
+			
+/*	
 		for (int i = 1; i < seq[k].getSeqLength(); i+=3) {
 		// i starts at 1 to properly utilize i+=3: 1, 4, 7 ... 
 		// instead of i starting at 0: 0, 3, 6 -- which skips position 3
 	
 			string triplet; // set of 3 characters from sequence
 			triplet.append(seq[k].getSeq(),i-1,3);	// sets string to triplet of char at position i
-		
-//		cout << triplet << " ";perator<<
-
+			//		cout << triplet << " ";
+			
 			// Increments # of occurances to corresponding string/codon
 			for (int j = 0; j < codon.size(); j++) {
 				if (triplet == codon[j].first) {
@@ -142,9 +174,12 @@ void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 				}
 			}
 		}
-	}
-	set_codonCount(count);	// Increments with setter; codonCount is private data member
+*/	}
+		set_codonCount(count);	// Increments with setter; codonCount is private data member
 
+		for (int k = 0; k < NUM_TYPE_OF_CODONS; k++) {
+			codonFreq[k] = (float) codonOcc[k] / count * 1000;
+		}
 }
 
 
@@ -159,7 +194,7 @@ int CodonFrequency::getCodonCount() {
 	return (codonCount);
 }
 
-
+/*
 // Calculates freq -- #ofOcc/codonCount
 void CodonFrequency::calcFreq(vector <Sequence> seq) {
 
@@ -183,7 +218,7 @@ for (int k = 0; k < seq.size(); k++) {
 	}
 }
 }
-
+*/
 
 // Prints # of occurances for each codon for the vector of sequences
 void CodonFrequency::printCodonCount() {
@@ -205,9 +240,23 @@ void CodonFrequency::printFreq() {
 
 }
 
+void CodonFrequency::binary(int decimal) {
+   int remainder;
+
+   if(decimal <= 1) {
+       std::cout << decimal;
+       return;
+   }
+   remainder = decimal % 2;
+   binary(decimal >> 1);    
+   std::cout << remainder;
+}
+
+
 // Stores frequency and # of occurances for each codon for the vector of sequences in an output file
 void CodonFrequency::outputFileCodonCount(ofstream &ofilename) {
 
+/*
 	for (int i = 0, count = 0; i < codon.size(); i++, ++count) {
 		if (count%4 == 0 && count != 0)
 			ofilename << endl;
@@ -218,7 +267,16 @@ void CodonFrequency::outputFileCodonCount(ofstream &ofilename) {
 		ofilename << codon[i].second;
 		ofilename << ")  ";
 	}
+*/
+	for (int i = 0, count = 0; i < NUM_TYPE_OF_CODONS; i++, count++) {
+		ofilename << codonFreq[i];
+		ofilename << " (";
+		ofilename << codonOcc[i];
+		ofilename << ")";
+		ofilename << endl;
+	}
 }
+
 
 // Stores each sequence as a series of frequencies in an output file
 void CodonFrequency::outputfileFreq(ofstream &ofilename) {

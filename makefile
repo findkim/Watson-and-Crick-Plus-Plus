@@ -16,5 +16,8 @@ CodonFrequency.o: CodonFrequency.cpp CodonFrequency.h
 	g++ -c CodonFrequency.cpp -std=c++0x
 	# -std=c++0x used to compile struct like initialization for codon vector
 
+MinMax.o: MinMax.cpp MinMax.h
+	g++ -c MinMax.cpp
+
 clean:
 	rm -f *.o main

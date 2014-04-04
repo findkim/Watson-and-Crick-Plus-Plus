@@ -87,7 +87,7 @@ void ExtractSequence::outputfile(char *filename){
   	codonFreq->outputFileCodonCount(ofile);
 	  //ofile << "how is the test working";
 	  ofile.close();
-		cout << ofile << " has been created." << endl;
+		cout << ofilename << " has been created." << endl;
 		
 	} else cout << "Unable to open " << ofilename << endl;
 	
