@@ -18,6 +18,7 @@
 #include <iterator>
 #include <string>
 #include <utility> // pair
+#include <unordered_map>	// stringmap for unordered_multimap
 
 using namespace std;
 
@@ -37,7 +38,7 @@ class CodonFrequency {
 			// Spits Codon|Codon Freq|count into output file name string
 		void outputfileFreq(ofstream &);
 			// Spits each sequence as a series of frequencies in an output file
-		void binary(int);
+//		void binary(int);
 	
 	private:
 		vector< pair<string, int> > codon;
@@ -48,6 +49,9 @@ class CodonFrequency {
 			// Vector of codon frequencies that correspond with the seq using codon vector
 		int codonCount; 	
 			// Total number of codons in sequence used to calculate frequency
+		unordered_multimap<string, pair<int, float> > AAtoCodonMap;
+		unordered_multimap<string, pair<int, float> > createMap(float []);
+			// maps AA letter to codons with codon freq
 
 };
 
