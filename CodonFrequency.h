@@ -18,7 +18,7 @@
 #include <iterator>
 #include <string>
 #include <utility> // pair
-#include <unordered_map>	// stringmap for unordered_multimap
+#include <map>	// stringmap for multimap
 
 using namespace std;
 
@@ -49,8 +49,8 @@ class CodonFrequency {
 			// Vector of codon frequencies that correspond with the seq using codon vector
 		int codonCount; 	
 			// Total number of codons in sequence used to calculate frequency
-		unordered_multimap<string, pair<int, float> > AAtoCodonMap;
-		unordered_multimap<string, pair<int, float> > createMap(float []);
+		multimap<char, pair<int, float> > AAtoCodonMap;
+		multimap<char, pair<int, float> > createMap(float []);
 			// maps AA letter to codons with codon freq
 
 };

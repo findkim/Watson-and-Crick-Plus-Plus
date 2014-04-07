@@ -96,24 +96,19 @@ void ExtractSequence::outputfile(char *filename){
 void ExtractSequence :: printSequences(){
 
 		// Does not print for alignments
-		if (codonFreq) {
+/*		if (codonFreq) {
 			codonFreq->printCodonCount();
 			cout << endl;
 			cout << "-----------------------" << endl;
 		
 		} else {
-
+*/
 		  for (int i = 0; i<Sequences.size(); i++) {
 		      Sequences[i].print();
 		      Sequences[i].printSeq();
-		      if (codonFreq) {
-		      	cout << endl;
-		      	codonFreq->printFreq();
-		      	cout << endl;
-		      }
 		      cout << "-----------------------" << endl;
 		  }
-		}
+//		}
 //    cout << "Number of sequences: " << Sequences.size() << endl;
 }
 void ExtractSequence :: getHeader(string line){

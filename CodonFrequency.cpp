@@ -15,9 +15,10 @@
 #include <vector>
 #include <iterator>
 #include <string>
-#include <fstream> //output file
-#include <unordered_map>	// stringmap for unordered_multimap
+#include <fstream> // output file
+#include <map>	// multimap
 #include <utility> // pair
+#include <algorithm>
 #include <bitset>
 
 using namespace std;
@@ -28,7 +29,7 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 
 
 	cout << "Calculating codon frequency..." << endl;
-	codon = {
+//	codon = {
 /*
 				 'GCT' => 'A', 'GCC' => 'A', 'GCA' => 'A', 'GCG' => 'A', 'TGT' => 'C',
 	       'TGC' => 'C', 'GAT' => 'D', 'GAC' => 'D', 'GAA' => 'E', 'GAG' => 'E',
@@ -44,7 +45,7 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 	       'GTC' => 'V', 'GTA' => 'V', 'GTG' => 'V', 'TGG' => 'W', 'TAT' => 'Y',
 	       'TAC' => 'Y', 'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
-		// Codon A Ala
+/*		// Codon A Ala
 		{"GCT",0}, {"GCC",0}, {"GCA",0}, {"GCG",0},
 	
 		// Codon C Tyr
@@ -107,7 +108,7 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 		// Stop Codon
 		{"TAA",0}, {"TAG",0}, {"TGA",0}
 	};
-
+*/
 	incrOccurance(seq);
 	
 	for (int i = 0; i < seq.size(); i++) {	// vector of sequences
@@ -191,113 +192,102 @@ void CodonFrequency::incrOccurance(vector<Sequence> seq) {
 }
 
 
-unordered_multimap<string, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
+multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 
 //	bitset<3> bits(string("010"));
 //	cout << bits.to_ulong() << endl;
 	
-	unordered_multimap<string, pair<int, float> > AAtoCodonMap;
+	multimap<char, pair<int, float> > AAtoCodonMap;
 	
 	for (int i = 0; i < NUM_TYPE_OF_CODONS; i++) {
 
 		pair <int, float> temp (i, codonFreq[i]);
-		cout << temp.first << " " << temp.second << endl;
-		
-			if (i <= 24 && i >= 27) {							// A
-				pair <string, pair<int, float> > temp2 ("A", temp);
-				AAtoCodonMap.insert (temp2);
+		//cout << temp.first << " " << temp.second << endl;
+		char AA;
+			if (i >= 24 && i <= 27) {							// A
+				AA = 'A';
 			}
-				//AAtoCodonMap["A"] = temp;
-			else if (i <= 54 && i >= 55) {				// C
-				pair <string, pair<int, float> > temp2 ("C", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 54 && i <= 55) {				// C
+				AA = 'C';
 			}
-			else if (i <= 18 && i >= 19) {				// D
-				pair <string, pair<int, float> > temp2 ("D", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 18 && i <= 19) {				// D
+				AA = 'D';
 			}
-			else if (i <= 16 && i >= 17) {				// E
-				pair <string, pair<int, float> > temp2 ("E", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 16 && i <= 17) {				// E
+				AA = 'E';
 			}
-			else if (i <= 62 && i >= 63) {				// F
-				pair <string, pair<int, float> > temp2 ("F", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 62 && i <= 63) {				// F
+				AA = 'F';
 			}
-			else if (i <= 20 && i >= 23) {				// G
-				pair <string, pair<int, float> > temp2 ("G", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 20 && i <= 23) {				// G
+				AA = 'G';
 			}
-			else if (i <= 34 && i >= 35) {				// H
-				pair <string, pair<int, float> > temp2 ("H", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 34 && i <= 35) {				// H
+				AA = 'H';
 			}
-			else if (i <= 14 && i >= 15 || i == 12) {				// I
-				pair <string, pair<int, float> > temp2 ("I", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 14 && i <= 15 || i == 12) {				// I
+				AA = 'I';
 			}
-			else if (i <= 0 && i >= 1) {					// K
-				pair <string, pair<int, float> > temp2 ("K", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 0 && i <= 1) {					// K
+				AA = 'K';
 			}
-			else if (i <= 60 && i >= 61 || i <= 44 && i >= 47) {				// L
-				pair <string, pair<int, float> > temp2 ("L", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 60 && i <= 61 || i <= 44 && i >= 47) {				// L
+				AA = 'L';
 			}
 			else if (i == 13) {										// M
-				pair <string, pair<int, float> > temp2 ("M", temp);
-				AAtoCodonMap.insert (temp2);
+				AA = 'M';
 			}
-			else if (i <= 2 && i >= 3) {				// N
-				pair <string, pair<int, float> > temp2 ("N", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 2 && i <= 3) {				// N
+				AA = 'N';
 			}
-			else if (i <= 40 && i >= 43) {				// P
-				pair <string, pair<int, float> > temp2 ("P", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 40 && i <= 43) {				// P
+				AA = 'P';
 			}
-			else if (i <= 31 && i >= 32) {				// Q
-				pair <string, pair<int, float> > temp2 ("Q", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 31 && i <= 32) {				// Q
+				AA = 'Q';
 			}
-			else if (i <= 36 && i >= 39 || i <= 4 && i >= 5) {				// R
-				pair <string, pair<int, float> > temp2 ("R", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 36 && i <= 39 || i >= 4 && i <= 5) {				// R
+				AA = 'R';
 			}
-			else if (i <= 56 && i >= 59 || i <= 6 && i >= 7) {				// S
-				pair <string, pair<int, float> > temp2 ("S", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 56 && i <= 59 || i >= 6 && i <= 7) {				// S
+				AA = 'S';
 			}
-			else if (i <= 8 && i >= 11) {					// T
-				pair <string, pair<int, float> > temp2 ("T", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 8 && i <= 11) {					// T
+				AA = 'T';
 			}
-			else if (i <= 28 && i >= 31) {				// V
-				pair <string, pair<int, float> > temp2 ("V", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 28 && i <= 31) {				// V
+				AA = 'V';
 			}
 			else if (i == 53) {				// W
-				pair <string, pair<int, float> > temp2 ("W", temp);
-				AAtoCodonMap.insert (temp2);
+				AA = 'W';
 			}
-			else if (i <= 50 && i >= 51) {				// Y
-				pair <string, pair<int, float> > temp2 ("Y", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 50 && i <= 51) {				// Y
+				AA = 'Y';
 			}
-			else if (i <= 48 && i >= 49 || i == 52) {				// Stop
-				pair <string, pair<int, float> > temp2 ("*", temp);
-				AAtoCodonMap.insert (temp2);
+			else if (i >= 48 && i <= 49 || i == 52) {				// Stop
+				AA = 'Z';
 			}
+			pair<char, pair<int, float> > temp2 (AA, temp);
+			AAtoCodonMap.insert (temp2);
 	}
-	cout << "AAtoCodonMap contains: " << endl;
-//	if (AAtoCodonMap.find("A"))
-	cout << AAtoCodonMap.find("*")->first.size() << endl;
-//	for (auto x: AAtoCodonMap)
-	//for (int j = 0; j < AAtoCodonMap.find("*")->first.size(); j++)
+
+/*
 	cout << AAtoCodonMap.find("*")->first << " " << AAtoCodonMap.find("*")->second.first << " " << AAtoCodonMap.find("*")->second.second << endl;
-	cout << "In here" << endl;
+*/	
+	cout << AAtoCodonMap.size() << endl;
+	for (char ch='A'; ch<='Z'; ch++) {
+		pair< multimap<char, pair<int, float> >::iterator, multimap<char, pair<int, float> >::iterator> ret;
+		ret = AAtoCodonMap.equal_range(ch);
+		cout << ch << " =>";
+		for (multimap<char, pair<int, float> >::iterator it = ret.first; it!=ret.second; ++it)
+			cout << ' ' << it->second.first;
+		cout << endl;
+	}
+	cout << AAtoCodonMap.find('A')->second.first << endl;
+
 	return AAtoCodonMap;
 }
+
 
 
 // Setter for codonCount -- used for incrementing # of codons in sequence in incrOcc method
@@ -336,7 +326,7 @@ for (int k = 0; k < seq.size(); k++) {
 }
 }
 */
-
+/*
 // Prints # of occurances for each codon for the vector of sequences
 void CodonFrequency::printCodonCount() {
 
@@ -347,7 +337,7 @@ void CodonFrequency::printCodonCount() {
 //	cout << endl;
 //	cout << "The total number of codons is " << getCodonCount() << endl;
 }
-
+*/
 /*
 // Prints frequency for the sequence
 void CodonFrequency::printFreq() {
