@@ -51,7 +51,14 @@ class CodonFrequency {
 			// Total number of codons in sequence used to calculate frequency
 		multimap<char, pair<int, float> > AAtoCodonMap;
 		multimap<char, pair<int, float> > createMap(float []);
+		void printMap(multimap<char, pair<int, float> > );
 			// maps AA letter to codons with codon freq
+		float findMin(multimap<char, pair<int, float> >, char);
+		float findMax(multimap<char, pair<int, float> >, char);
+		map<char, float> createMinMap(multimap<char, pair<int, float> >);
+		map<char, float> createMaxMap(multimap<char, pair<int, float> >);
+		map<char, float> minMap;
+		map<char, float> maxMap;
 
 };
 

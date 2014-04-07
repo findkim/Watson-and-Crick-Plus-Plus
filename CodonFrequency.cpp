@@ -120,6 +120,11 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 
 //	calcFreq(seq);
 	AAtoCodonMap = createMap(codonFreq);
+	printMap(AAtoCodonMap);
+	cout << "------minFreq------" << endl;
+	minMap = createMinMap(AAtoCodonMap);
+	cout << "-----maxFreq------" << endl;
+	maxMap = createMaxMap(AAtoCodonMap);
 	cout << "Finished calculations." << endl; 
 }
 
@@ -270,24 +275,112 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 			pair<char, pair<int, float> > temp2 (AA, temp);
 			AAtoCodonMap.insert (temp2);
 	}
-
-/*
-	cout << AAtoCodonMap.find("*")->first << " " << AAtoCodonMap.find("*")->second.first << " " << AAtoCodonMap.find("*")->second.second << endl;
-*/	
-	cout << AAtoCodonMap.size() << endl;
-	for (char ch='A'; ch<='Z'; ch++) {
-		pair< multimap<char, pair<int, float> >::iterator, multimap<char, pair<int, float> >::iterator> ret;
-		ret = AAtoCodonMap.equal_range(ch);
-		cout << ch << " =>";
-		for (multimap<char, pair<int, float> >::iterator it = ret.first; it!=ret.second; ++it)
-			cout << ' ' << it->second.first;
-		cout << endl;
-	}
-	cout << AAtoCodonMap.find('A')->second.first << endl;
-
 	return AAtoCodonMap;
 }
 
+
+void CodonFrequency::printMap(multimap<char, pair<int, float> > AAtoCodonMap) {
+
+
+//	cout << AAtoCodonMap.find("*")->first << " " << AAtoCodonMap.find("*")->second.first << " " << AAtoCodonMap.find("*")->second.second << endl;
+
+	for (char AA = 'A'; AA <= 'Z'; AA++) {
+		pair< multimap<char, pair<int, float> >::iterator, multimap<char, pair<int, float> >::iterator> ret;
+		
+		if (AAtoCodonMap.count(AA) <= 0) continue;
+		
+		ret = AAtoCodonMap.equal_range(AA);
+		cout << AA << " =>";
+
+		for (multimap<char, pair<int, float> >::iterator it = ret.first; it!=ret.second; ++it) {
+			cout << ' ' << it->second.first;
+		}
+		cout << endl;
+	}
+}
+
+
+// Returns the Codon with lowest frequency for that amino acid
+float CodonFrequency::findMin(multimap<char, pair<int, float> > AAtoCodonMap, char AA) {
+
+	float min = 100;
+	
+	pair< multimap<char, pair<int, float> >::iterator, 
+		multimap<char, pair<int, float> >::iterator> ret;
+	
+	ret = AAtoCodonMap.equal_range(AA);
+
+	for (multimap<char, pair<int, float> >::iterator it = ret.first; it != ret.second; ++it) {
+			
+		if (min > it->second.second)
+			min = it->second.second;
+	}
+	return min;
+}
+
+
+// Returns the Codon with highest frequency for that amino acid
+float CodonFrequency::findMax(multimap<char, pair<int, float> > AAtoCodonMap, char AA) {
+
+	float max = 0;
+	
+	pair< multimap<char, pair<int, float> >::iterator, 
+		multimap<char, pair<int, float> >::iterator> ret;
+	
+	ret = AAtoCodonMap.equal_range(AA);
+
+	for (multimap<char, pair<int, float> >::iterator it = ret.first; it!=ret.second; ++it) {
+			
+		if (max < it->second.second)
+			max = it->second.second;
+	}
+	return max;
+}
+
+
+// Maps lowest frequency of codons to each amino acid
+map<char, float> CodonFrequency::createMinMap(multimap<char, pair<int, float> > AAtoCodonMap){
+
+	map<char, float> minMap;
+	float minFreq;
+
+	// Loops through all amino acids
+	// If char rep of AA exists
+	// Calculate smallest frequency to minMap
+	for (char AA = 'A'; AA <= 'Z'; AA++) {
+
+		if (AAtoCodonMap.count(AA) > 1) {
+			
+			minFreq = findMin(AAtoCodonMap, AA);
+			minMap[AA] = minFreq;
+			cout << AA << " " << minMap.find(AA)->second << endl;
+		} else if (AAtoCodonMap.count(AA) == 1)
+			minMap[AA] = AAtoCodonMap.find(AA)->second.second;
+	}
+	return minMap;
+}
+
+
+// Maps highest frequency of codons to each amino acid
+map<char, float> CodonFrequency::createMaxMap(multimap<char, pair<int, float> > AAtoCodonMap){
+
+	map<char, float> maxMap;
+	float maxFreq;
+
+	// Loops through all amino acids
+	// If char rep of AA exists
+	// Calculate smallest frequency to minMap
+	for (char AA = 'A'; AA <= 'Z'; AA++) {
+		if (AAtoCodonMap.count(AA) > 1) {
+			
+			maxFreq = findMax(AAtoCodonMap, AA);
+			maxMap[AA] = maxFreq;
+			cout << AA << " " << maxMap.find(AA)->second << endl;
+		} else if (AAtoCodonMap.count(AA) == 1)
+			maxMap[AA] = AAtoCodonMap.find(AA)->second.second;
+	}
+	return maxMap;
+}
 
 
 // Setter for codonCount -- used for incrementing # of codons in sequence in incrOcc method
