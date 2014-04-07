@@ -7,7 +7,6 @@
 //
 
 #include "Sequence.h"
-//#include "CodonFrequency.h"	// Composition, each seq can calculate codon freq
 #include <iostream>
 #include <string>
 #include <vector>
@@ -52,29 +51,12 @@ void Sequence::print(){
 	cout << "The sequence name is: " << getSeqName() << endl;
 	cout << "The sequence description: " << getSeqDescription() << endl;
 	cout << "The sequence length is " << getSeqLength() << endl;
-/*	
-	// Does not print for alignments
-	if (codonFreq) {
-		codonFreq->printFreq();
-		cout << endl;
-	} */
 }
 
 
 // Prints sequence
 void Sequence::printSeq(){
     cout << seq << endl;
-/*
-	// Does not print for alignments
-	if (codonFreq) {
-		cout << "The codon count is " << codonFreq->getCodonCount() << endl;
-		codonFreq->printFreq();
-		cout << endl;
-	} */
-
-	/*ostream_iterator<char> output (cout, "");
-	copy (seq.begin(), seq.end(), output);
-	cout << endl; */
 }
 
 char Sequence :: operator[](int i){
