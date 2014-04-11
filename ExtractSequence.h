@@ -17,11 +17,12 @@ using namespace std;
 
 class ExtractSequence{
 public:
-    ExtractSequence(char *);
-    void printSequences();
-    void getHeader(string);
-    /*void calAlignment();
-    void displayAlignment(); */
+    ExtractSequence(char *); // constructor takes in filename
+    void printSequences(int); // print sequences: name description and sequence
+    void getHeader(string); // get name and description from header line
+    Sequence getSequence(string);// searching for Sequence by name
+    int getSize(); // get the size of the Sequences vector
+    Sequence operator[](int);
 private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.

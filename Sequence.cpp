@@ -25,7 +25,9 @@ Sequence :: Sequence(string name, string description, string sequence){
     seq = sequence;
     seqLength = seq.size();
 }
-
+string Sequence :: getSeq(){
+    return seq;
+}
 string Sequence::getSeqName(){
 	return seqName;
 }
@@ -53,13 +55,10 @@ void Sequence::print(){
 // Prints sequence
 void Sequence::printSeq(){
     cout << seq << endl;
-
-	/*ostream_iterator<char> output (cout, "");
-	copy (seq.begin(), seq.end(), output);
-	cout << endl; */
 }
 
 char Sequence :: operator[](int i){
+    // check out of range
     if (i<0 || i>seq.size()) {
 		if (i < 0 || i >= getSeqLength()) {
     		throw "Subscript out of range";
@@ -67,7 +66,7 @@ char Sequence :: operator[](int i){
     }
     return seq[i];
 }
-
+// add gap after i
 void Sequence :: addGap(int i){
     seq.insert(i+1,"-");
 }

@@ -10,6 +10,9 @@
 
 #include "Sequence.h"
 #include "ExtractSequence.h"
+#include "AlignmentCIGAR.h"
+#include "NeighborJoining.h"
+#include "PairAlignment.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -18,9 +21,23 @@
 using namespace std;
 
 int main() {
-	ExtractSequence test("NM_000927.4.fas");
-	test.printSequences();
-    ExtractSequence testSequences("nucSampleAlignment.fa");
-    testSequences.printSequences();
+    // test loading file with multiple sequences
+    ExtractSequence testSequences("ultimateORFS18608.fasta");
+    PairAlignment testPair(testSequences);
+    testPair.computeTables();
+    testPair.updateAlign();
+    testPair.printAlignment();
+    //testSequences.printSequences(0);
+    //cout << "++++++++++++++++++++++++++++++++++++" << endl;
+    //testSequences.printSequences(1);
+    //cout << "++++++++++++++++++++++++++++++++++++" << endl;
+    //AlignmentCIGAR testCigar("nucSampleAlignment.fa");
+    //string c = testCigar.cigarOneSeq(1);
+    //cout << c << endl;
+    //testCigar.setCigar();
+    //testCigar.printCigar();
+    //NeighborJoining testNJ("nucSampleAlignment.fa");
+    //testNJ.write_distance();
+    //testNJ.print_distance();
 	return 0;
 }
