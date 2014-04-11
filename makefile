@@ -1,6 +1,6 @@
 all: main
 
-main: main.o Sequence.o ExtractSequence.o CodonFrequency.o
+main: main.o Sequence.o ExtractSequence.o CodonFrequency.o MinMax.o
 	g++ main.o Sequence.o ExtractSequence.o CodonFrequency.o -o main
 
 main.o: main.cpp

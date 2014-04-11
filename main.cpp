@@ -10,8 +10,7 @@
 
 #include "Sequence.h"
 #include "ExtractSequence.h"
-#include "CodonFrequency.h"
-#include <iostream>
+
 
 using namespace std;
 
