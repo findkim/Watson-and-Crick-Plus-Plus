@@ -49,6 +49,14 @@ class CodonFrequency {
 		string binaryToCodon(string);
 			// Converts 6 bit binary string to codon string
 			// A = 00; G = 01; C = 10; T = 11;
+		int codonStrToBinaryRep(string);
+			// Converts codon string to binary representation of codon
+			// A = 00; G = 01; C = 10; T = 11;
+		vector<float> getMinMap();
+		vector<float> getMaxMap();
+		vector<float> getAvgMap();
+		float *getCodonFreq();
+		int *getCodonToAAMap();
 	
 	private:
 		vector< pair<string, int> > codon;
@@ -56,8 +64,9 @@ class CodonFrequency {
 			// Stores # of occurance for each codon
 		float codonFreq [64];
 			// Stores frequency for each codon
-		int codonCount; 	
+		int codonCount;
 			// Total number of codons in sequences used to calculate frequency
+		int *createCodonToAAMap(string);
 		multimap<char, pair<int, float> > AAtoCodonMap;
 			// Maps all codons with frequency to corresponding amino acid
 		multimap<char, pair<int, float> > createMap(float []);
@@ -77,6 +86,7 @@ class CodonFrequency {
 		vector<float> minMap;
 		vector<float> maxMap;
 		vector<float> avgMap;
+		int *codonToAAMap;
 			
 
 };

@@ -54,6 +54,8 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 	       'TAT' => 'Y', 'TAC' => 'Y',
 	       'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
+	string codonStr = "AAAAAGAACAATAGAAGGAGCAGTACAACGACCACTATAATGATCATTGAAGAGGACGATGGAGGGGGCGGTGCAGCGGCCGCTGTAGTGGTCGTTCAACAGCACCATCGACGGCGCCGTCCACCGCCCCCTCTACTGCTCCTTTAATAGTACTATTGATGGTGCTGTTCATCGTCCTCTTTATTGTTCTTT";
+	codonToAAMap = createCodonToAAMap(codonStr);
 
 	calcFreq(seq);
 
@@ -347,8 +349,7 @@ vector<float> CodonFrequency::createAvgMap(multimap<char, pair<int, float> > AAt
 
 		if (AA == 'B' || AA == 'J' || AA == 'O' || AA == 'U' || AA == 'X') { 
 			avgMap.push_back(-1);
-			cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
-//		continue;
+//			continue;
 		}
 
 		else if (AAtoCodonMap.count(AA) > 1) {
@@ -359,24 +360,37 @@ vector<float> CodonFrequency::createAvgMap(multimap<char, pair<int, float> > AAt
 			ret = AAtoCodonMap.equal_range(AA);
 			
 			for (multimap<char, pair<int, float> >::iterator it = ret.first; it != ret.second; ++it) {
-				cout << AA << " " << it->second.second << endl;
+//				cout << AA << " " << it->second.second << endl;
 				sumFreq += it->second.second;
 				codonPerAA++;
 			}
 
 			avgFreq = sumFreq/codonPerAA;
-			cout << sumFreq << " / " << codonPerAA << " = " << avgFreq << endl;
+//			cout << sumFreq << " / " << codonPerAA << " = " << avgFreq << endl;
 			avgMap.push_back(avgFreq);
-			cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
-//			cout << AA << " " << avgMap[addressAA] << endl;
+//			continue;
 			
 		} else if (AAtoCodonMap.count(AA) == 1) {
 			avgMap.push_back(AAtoCodonMap.find(AA)->second.second);
-			cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
+//			continue;
 		}
-		cout << endl;
+		cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
 	}
 	return avgMap;
+}
+
+
+vector<float> CodonFrequency::getMinMap() {
+	return minMap;
+}
+vector<float> CodonFrequency::getMaxMap() {
+	return maxMap;
+}
+vector<float> CodonFrequency::getAvgMap() {
+	return avgMap;
+}
+float * CodonFrequency::getCodonFreq() {
+	return codonFreq;
 }
 
 /*
@@ -507,6 +521,128 @@ string CodonFrequency::binaryToCodon(string binaryStr) {
 	}
 //	cout << codon << endl;
 	return codon;
+}
+
+
+// Converts codon string to binary representation of codon
+// A = 00; G = 01; C = 10; T = 11;
+int CodonFrequency::codonStrToBinaryRep(string codonStr) {
+
+	int binaryRep = 0;
+
+	for (string::iterator itr = codonStr.begin(), end = codonStr.end(); itr != end; ++itr) {
+
+		// First nucleotide
+		if (*itr == 'A') binaryRep += 0;					// 00xxxx
+		else if (*itr == 'G') binaryRep += 16;						// 01xxxx
+		else if (*itr == 'C') binaryRep += 32;			// 10xxxx
+		else if (*itr == 'T') binaryRep += (32+16);	// 11xxxx
+//		cout << binaryRep << endl;
+		
+		// Second nucleotide
+		itr++;
+		if (*itr == 'A') binaryRep += 0;					// xx00xx
+		else if (*itr == 'G') binaryRep += 4;						// xx01xx
+		else if (*itr == 'C') binaryRep += 8;				// xx10xx
+		else if (*itr == 'T') binaryRep += (8+4);		// xx11xx
+//		cout << binaryRep << endl;
+		// Third nucleotide
+		itr++;
+		if (*itr == 'A') binaryRep += 0;					// xxxx00
+		else if (*itr == 'G') binaryRep += 1;						// xxxx01
+		else if (*itr == 'C') binaryRep += 2;				// xxxx10
+		else if (*itr == 'T') binaryRep += (2+1);		// xxxx11
+//		cout << binaryRep << endl;
+	}
+	return binaryRep;
+}
+
+
+// Converts codon to amino acid number representation 0-25
+int * CodonFrequency::createCodonToAAMap(string codonStr) {
+
+	int codonToAAMap[64];
+	for (int j = 0; j < codonStr.size(); j+=3) {
+
+		string triplet = codonStr.substr(j,3);
+
+		int binaryRep = codonStrToBinaryRep(triplet);
+		cout << triplet << " " << binaryRep << endl;
+		int i = binaryRep;
+
+		if (i >= 24 && i <= 27) {							// A
+			codonToAAMap[binaryRep] = 'A'-65;
+		}
+		else if (i >= 54 && i <= 55) {				// C
+			codonToAAMap[binaryRep] = 'C'-65;
+		}
+		else if (i >= 18 && i <= 19) {				// D
+			codonToAAMap[binaryRep] = 'D'-65;
+		}
+		else if (i >= 16 && i <= 17) {				// E
+			codonToAAMap[binaryRep] = 'E'-65;
+		}
+		else if (i >= 62 && i <= 63) {				// F
+			codonToAAMap[binaryRep] = 'F'-65;
+		}
+		else if (i >= 20 && i <= 23) {				// G
+			codonToAAMap[binaryRep] = 'G'-65;
+		}
+		else if (i >= 34 && i <= 35) {				// H
+			codonToAAMap[binaryRep] = 'H'-65;
+		}
+		else if (i == 12 || i == 14 || i == 15) {				// I
+			codonToAAMap[binaryRep] = 'I'-65;
+		}
+		else if (i >= 0 && i <= 1) {					// K
+			codonToAAMap[binaryRep] = 'K'-65;
+		}
+		else if (i >= 60 && i <= 61 || i >= 44 && i <= 47) {				// L
+			codonToAAMap[binaryRep] = 'L'-65;
+		}
+		else if (i == 13) {										// M
+			codonToAAMap[binaryRep] = 'M'-65;
+		}
+		else if (i >= 2 && i <= 3) {				// N
+			codonToAAMap[binaryRep] = 'N'-65;
+		}
+		else if (i >= 40 && i <= 43) {				// P
+			codonToAAMap[binaryRep] = 'P'-65;
+		}
+		else if (i >= 32 && i <= 33) {				// Q
+			codonToAAMap[binaryRep] = 'Q'-65;
+		}
+		else if (i >= 36 && i <= 39 || i >= 4 && i <= 5) {				// R
+			codonToAAMap[binaryRep] = 'R'-65;
+		}
+		else if (i >= 56 && i <= 59 || i >= 6 && i <= 7) {				// S
+			codonToAAMap[binaryRep] = 'S'-65;
+		}
+		else if (i >= 8 && i <= 11) {					// T
+			codonToAAMap[binaryRep] = 'T'-65;
+		}
+		else if (i >= 28 && i <= 31) {				// V
+			codonToAAMap[binaryRep] = 'V'-65;
+		}
+		else if (i == 53) {				// W
+			codonToAAMap[binaryRep] = 'W'-65;
+		}
+		else if (i >= 50 && i <= 51) {				// Y
+			codonToAAMap[binaryRep] = 'Y'-65;
+		}
+		else if (i >= 48 && i <= 49 || i == 52) {		// Stop codons
+			codonToAAMap[binaryRep] = 'Z'-65;
+		}
+	}
+	for (int i = 0; i < 64; i++) {
+		cout << i << " " << codonToAAMap[i] << endl;
+	}
+	return codonToAAMap;
+}
+
+
+int * CodonFrequency::getCodonToAAMap() {
+	return codonToAAMap;
 }
 
 
