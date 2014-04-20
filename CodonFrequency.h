@@ -49,7 +49,7 @@ class CodonFrequency {
 		string binaryToCodon(string);
 			// Converts 6 bit binary string to codon string
 			// A = 00; G = 01; C = 10; T = 11;
-		int codonStrToBinaryRep(string);
+		static int codonStrToBinaryRep(string);
 			// Converts codon string to binary representation of codon
 			// A = 00; G = 01; C = 10; T = 11;
 		vector<float> getMinMap();

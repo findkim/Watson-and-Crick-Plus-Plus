@@ -104,10 +104,8 @@ void CodonFrequency::calcFreq(vector<Sequence> seq) {
 				if (*itr == 'G') binaryRep += 1;						// xxxx01
 				else if (*itr == 'C') binaryRep += 2;				// xxxx10
 				else if (*itr == 'T') binaryRep += (2+1);		// xxxx11
-				
+
 //				cout << "The binary rep is " << binaryRep << endl;
-//				if (binaryRep == 48 || binaryRep == 49 || binaryRep == 52) continue;
-					// STOP codons are ignored
 				codonOcc[binaryRep]++;
 				count++;
 			}
@@ -393,60 +391,6 @@ float * CodonFrequency::getCodonFreq() {
 	return codonFreq;
 }
 
-/*
-// Maps lowest frequency of codons to each amino acid
-map<char, float> CodonFrequency::createMinMap(multimap<char, pair<int, float> > AAtoCodonMap){
-
-	map<char, float> minMap;
-	float minFreq;
-
-	// Loops through all amino acids
-	// If char rep of AA exists
-	// Calculate smallest frequency to minMap
-	for (char AA = 'A'; AA <= 'Z'; AA++) {
-
-		if (AA == 'B' || AA == 'J' || AA == 'O' || AA == 'U' || AA == 'X') continue;
-
-		if (AAtoCodonMap.count(AA) > 1) {
-			
-			minFreq = findMin(AAtoCodonMap, AA);
-			minMap[AA] = minFreq;
-			cout << AA << " " << minMap.find(AA)->second << endl;
-			
-		} else if (AAtoCodonMap.count(AA) == 1) {
-			cout << AA << " " << AAtoCodonMap.find(AA)->second.second << endl;
-			minMap[AA] = AAtoCodonMap.find(AA)->second.second;
-		}
-	}
-	return minMap;
-}
-
-// Maps highest frequency of codons to each amino acid
-map<char, float> CodonFrequency::createMaxMap(multimap<char, pair<int, float> > AAtoCodonMap){
-
-	map<char, float> maxMap;
-	float maxFreq;
-
-	// Loops through all amino acids
-	// If char rep of AA exists
-	// Calculate highest frequency to maxMap
-	for (char AA = 'A'; AA <= 'Z'; AA++) {
-	
-		if (AA == 'B' || AA == 'J' || AA == 'O' || AA == 'U' || AA == 'X') continue;
-		
-		if (AAtoCodonMap.count(AA) > 1) {
-			
-			maxFreq = findMax(AAtoCodonMap, AA);
-			maxMap[AA] = maxFreq;
-			cout << AA << " " << maxMap.find(AA)->second << endl;
-		} else if (AAtoCodonMap.count(AA) == 1)
-			cout << AA << " " << AAtoCodonMap.find(AA)->second.second << endl;
-			maxMap[AA] = AAtoCodonMap.find(AA)->second.second;
-	}
-	return maxMap;
-}
-*/
-
 
 // Setter for codonCount -- used for incrementing # of codons in sequence in incrOcc method
 void CodonFrequency::set_codonCount(int c) {
@@ -524,7 +468,7 @@ string CodonFrequency::binaryToCodon(string binaryStr) {
 }
 
 
-// Converts codon string to binary representation of codon
+// Converts codon string of 3 nucleotides to binary representation of codon
 // A = 00; G = 01; C = 10; T = 11;
 int CodonFrequency::codonStrToBinaryRep(string codonStr) {
 
@@ -533,23 +477,23 @@ int CodonFrequency::codonStrToBinaryRep(string codonStr) {
 	for (string::iterator itr = codonStr.begin(), end = codonStr.end(); itr != end; ++itr) {
 
 		// First nucleotide
-		if (*itr == 'A') binaryRep += 0;					// 00xxxx
-		else if (*itr == 'G') binaryRep += 16;						// 01xxxx
+		if (*itr == 'A') binaryRep += 0;						// 00xxxx
+		else if (*itr == 'G') binaryRep += 16;			// 01xxxx
 		else if (*itr == 'C') binaryRep += 32;			// 10xxxx
 		else if (*itr == 'T') binaryRep += (32+16);	// 11xxxx
 //		cout << binaryRep << endl;
 		
 		// Second nucleotide
 		itr++;
-		if (*itr == 'A') binaryRep += 0;					// xx00xx
-		else if (*itr == 'G') binaryRep += 4;						// xx01xx
+		if (*itr == 'A') binaryRep += 0;						// xx00xx
+		else if (*itr == 'G') binaryRep += 4;				// xx01xx
 		else if (*itr == 'C') binaryRep += 8;				// xx10xx
 		else if (*itr == 'T') binaryRep += (8+4);		// xx11xx
 //		cout << binaryRep << endl;
 		// Third nucleotide
 		itr++;
-		if (*itr == 'A') binaryRep += 0;					// xxxx00
-		else if (*itr == 'G') binaryRep += 1;						// xxxx01
+		if (*itr == 'A') binaryRep += 0;						// xxxx00
+		else if (*itr == 'G') binaryRep += 1;				// xxxx01
 		else if (*itr == 'C') binaryRep += 2;				// xxxx10
 		else if (*itr == 'T') binaryRep += (2+1);		// xxxx11
 //		cout << binaryRep << endl;
@@ -567,7 +511,7 @@ int * CodonFrequency::createCodonToAAMap(string codonStr) {
 		string triplet = codonStr.substr(j,3);
 
 		int binaryRep = codonStrToBinaryRep(triplet);
-		cout << triplet << " " << binaryRep << endl;
+//		cout << triplet << " " << binaryRep << endl;
 		int i = binaryRep;
 
 		if (i >= 24 && i <= 27) {							// A
@@ -634,9 +578,9 @@ int * CodonFrequency::createCodonToAAMap(string codonStr) {
 			codonToAAMap[binaryRep] = 'Z'-65;
 		}
 	}
-	for (int i = 0; i < 64; i++) {
-		cout << i << " " << codonToAAMap[i] << endl;
-	}
+//	for (int i = 0; i < 64; i++) {
+//		cout << i << " " << codonToAAMap[i] << endl;
+//	}
 	return codonToAAMap;
 }
 
