@@ -68,12 +68,16 @@ class CodonFrequency {
 			// Returns codon with lowest frequency for that amino acid
 		float findMax(multimap<char, pair<int, float> >, char);
 			// Returns codon with highest frequency for that amino acid
-		map<char, float> createMinMap(multimap<char, pair<int, float> >);
+		vector<float> createMinMap(multimap<char, pair<int, float> >);
 			// Maps lowest frequency of codons to each amino acid
-		map<char, float> createMaxMap(multimap<char, pair<int, float> >);
+		vector<float> createMaxMap(multimap<char, pair<int, float> >);
 			// Maps highest frequency of codons to each amino acid
-		map<char, float> minMap;
-		map<char, float> maxMap;
+		vector<float> createAvgMap(multimap<char, pair<int, float> >);
+			// Maps average codon frequency of codons to each amino acid
+		vector<float> minMap;
+		vector<float> maxMap;
+		vector<float> avgMap;
+			
 
 };
 

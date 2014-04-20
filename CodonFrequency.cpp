@@ -32,29 +32,36 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 
 	cout << "Calculating codon frequency..." << endl;
 /*
-				 'GCT' => 'A', 'GCC' => 'A', 'GCA' => 'A', 'GCG' => 'A', 'TGT' => 'C',
-	       'TGC' => 'C', 'GAT' => 'D', 'GAC' => 'D', 'GAA' => 'E', 'GAG' => 'E',
-	       'TTT' => 'F', 'TTC' => 'F', 'GGT' => 'G', 'GGC' => 'G', 'GGA' => 'G',
-	       'GGG' => 'G', 'CAT' => 'H', 'CAC' => 'H', 'ATT' => 'I', 'ATC' => 'I',
-	       'ATA' => 'I', 'AAA' => 'K', 'AAG' => 'K', 'TTG' => 'L', 'TTA' => 'L',
-	       'CTT' => 'L', 'CTC' => 'L', 'CTA' => 'L', 'CTG' => 'L', 'ATG' => 'M',
-	       'AAT' => 'N', 'AAC' => 'N', 'CCT' => 'P', 'CCC' => 'P', 'CCA' => 'P',
-	       'CCG' => 'P', 'CAA' => 'Q', 'CAG' => 'Q', 'CGT' => 'R', 'CGC' => 'R',
-	       'CGA' => 'R', 'CGG' => 'R', 'AGA' => 'R', 'AGG' => 'R', 'TCT' => 'S',
-	       'TCC' => 'S', 'TCA' => 'S', 'TCG' => 'S', 'AGT' => 'S', 'AGC' => 'S',
-	       'ACT' => 'T', 'ACC' => 'T', 'ACA' => 'T', 'ACG' => 'T', 'GTT' => 'V',
-	       'GTC' => 'V', 'GTA' => 'V', 'GTG' => 'V', 'TGG' => 'W', 'TAT' => 'Y',
-	       'TAC' => 'Y', 'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
+				 'GCT' => 'A', 'GCC' => 'A', 'GCA' => 'A', 'GCG' => 'A', 
+				 'TGT' => 'C', 'TGC' => 'C',
+				 'GAT' => 'D', 'GAC' => 'D',
+				 'GAA' => 'E', 'GAG' => 'E',
+	       'TTT' => 'F', 'TTC' => 'F',
+	       'GGT' => 'G', 'GGC' => 'G', 'GGA' => 'G', 'GGG' => 'G', 
+	       'CAT' => 'H', 'CAC' => 'H', 
+	       'ATT' => 'I', 'ATC' => 'I', 'ATA' => 'I',
+	       'AAA' => 'K', 'AAG' => 'K',
+	       'TTG' => 'L', 'TTA' => 'L', 'CTT' => 'L', 'CTC' => 'L', 'CTA' => 'L', 'CTG' => 'L', 
+	       'ATG' => 'M',
+	       'AAT' => 'N', 'AAC' => 'N',
+	       'CCT' => 'P', 'CCC' => 'P', 'CCA' => 'P', 'CCG' => 'P',
+	       'CAA' => 'Q', 'CAG' => 'Q',
+	       'CGT' => 'R', 'CGC' => 'R', 'CGA' => 'R', 'CGG' => 'R', 'AGA' => 'R', 'AGG' => 'R', 
+	       'TCT' => 'S', 'TCC' => 'S', 'TCA' => 'S', 'TCG' => 'S', 'AGT' => 'S', 'AGC' => 'S',
+	       'ACT' => 'T', 'ACC' => 'T', 'ACA' => 'T', 'ACG' => 'T',
+	       'GTT' => 'V', 'GTC' => 'V', 'GTA' => 'V', 'GTG' => 'V',
+	       'TGG' => 'W',
+	       'TAT' => 'Y', 'TAC' => 'Y',
+	       'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
 
 	calcFreq(seq);
 
 	AAtoCodonMap = createMap(codonFreq);
 	printMap(AAtoCodonMap);
-	cout << "------minFreq------" << endl;
 	minMap = createMinMap(AAtoCodonMap);
-	cout << "------maxFreq------" << endl;
 	maxMap = createMaxMap(AAtoCodonMap);
+	avgMap = createAvgMap(AAtoCodonMap);
 	cout << "Finished calculations." << endl; 
 }
 
@@ -103,11 +110,11 @@ void CodonFrequency::calcFreq(vector<Sequence> seq) {
 				count++;
 			}
 	}
-		set_codonCount(count);	// Increments with setter; codonCount is private data member
+	set_codonCount(count);	// Increments with setter; codonCount is private data member
 
-		for (int k = 0; k < NUM_TYPE_OF_CODONS; k++) {
-			codonFreq[k] = (float) codonOcc[k] / count * 1000;
-		}
+	for (int k = 0; k < NUM_TYPE_OF_CODONS; k++) {
+		codonFreq[k] = (float) codonOcc[k] / count * 1000;
+	}
 }
 
 
@@ -115,12 +122,12 @@ void CodonFrequency::calcFreq(vector<Sequence> seq) {
 multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 	
 	multimap<char, pair<int, float> > AAtoCodonMap;
+	char AA;
 	
 	for (int i = 0; i < NUM_TYPE_OF_CODONS; i++) {
 
 		pair <int, float> temp (i, codonFreq[i]);
 		//cout << temp.first << " " << temp.second << endl;
-		char AA;
 			if (i >= 24 && i <= 27) {							// A
 				AA = 'A';
 			}
@@ -142,13 +149,13 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 			else if (i >= 34 && i <= 35) {				// H
 				AA = 'H';
 			}
-			else if (i >= 14 && i <= 15 || i == 12) {				// I
+			else if (i == 12 || i == 14 || i == 15) {				// I
 				AA = 'I';
 			}
 			else if (i >= 0 && i <= 1) {					// K
 				AA = 'K';
 			}
-			else if (i >= 60 && i <= 61 || i <= 44 && i >= 47) {				// L
+			else if (i >= 60 && i <= 61 || i >= 44 && i <= 47) {				// L
 				AA = 'L';
 			}
 			else if (i == 13) {										// M
@@ -160,7 +167,7 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 			else if (i >= 40 && i <= 43) {				// P
 				AA = 'P';
 			}
-			else if (i >= 31 && i <= 32) {				// Q
+			else if (i >= 32 && i <= 33) {				// Q
 				AA = 'Q';
 			}
 			else if (i >= 36 && i <= 39 || i >= 4 && i <= 5) {				// R
@@ -181,7 +188,7 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 			else if (i >= 50 && i <= 51) {				// Y
 				AA = 'Y';
 			}
-			else if (i >= 48 && i <= 49 || i == 52) {				// Stop codons are ignored
+			else if (i >= 48 && i <= 49 || i == 52) {		// Stop codons
 				AA = 'Z';
 			}
 			pair<char, pair<int, float> > temp2 (AA, temp);
@@ -248,6 +255,132 @@ float CodonFrequency::findMax(multimap<char, pair<int, float> > AAtoCodonMap, ch
 
 
 // Maps lowest frequency of codons to each amino acid
+vector<float> CodonFrequency::createMinMap(multimap<char, pair<int, float> > AAtoCodonMap) {
+
+	cout << "------minFreq------" << endl;
+
+	float minFreq;
+	vector<float> minMap;
+
+	// Loops through all amino acids
+	// If char rep of AA exists
+	// Calculate smallest frequency to minMap
+	for (char AA = 'A'; AA <= 'Z'; AA++) {
+	
+		int addressAA = AA - 65;
+
+		if (AA == 'B' || AA == 'J' || AA == 'O' || AA == 'U' || AA == 'X') { 
+			minMap.push_back(-1);
+//			continue;
+		}
+
+		else if (AAtoCodonMap.count(AA) > 1) {
+			
+			minFreq = findMin(AAtoCodonMap, AA);
+			minMap.push_back(minFreq);
+//			continue;
+			
+		} else if (AAtoCodonMap.count(AA) == 1) {
+			minMap.push_back(AAtoCodonMap.find(AA)->second.second);
+		}
+//		to print values: comment out the continues in if statements
+		cout << addressAA << " " << AA << " " << minMap[addressAA] << endl;
+	}
+	return minMap;
+}
+
+
+// Maps highest frequency of codons to each amino acid
+vector<float> CodonFrequency::createMaxMap(multimap<char, pair<int, float> > AAtoCodonMap){
+
+	cout << "------maxFreq------" << endl;
+
+	vector<float> maxMap;
+	float maxFreq;
+
+	// Loops through all amino acids
+	// If char rep of AA exists
+	// Calculate highest frequency to maxMap
+	for (char AA = 'A'; AA <= 'Z'; AA++) {
+		
+		int addressAA = AA - 65;
+		
+		if (AA == 'B' || AA == 'J' || AA == 'O' || AA == 'U' || AA == 'X') {
+		maxMap.push_back(-1);
+//		continue;
+		}
+
+		else if (AAtoCodonMap.count(AA) > 1) {
+			
+			maxFreq = findMax(AAtoCodonMap, AA);
+			maxMap.push_back(maxFreq);
+//			continue;
+			
+		} else if (AAtoCodonMap.count(AA) == 1) {
+			maxMap.push_back(AAtoCodonMap.find(AA)->second.second);
+		}
+//		to print values: comment out the continues in if statements
+		cout << addressAA << " " << AA << " " << maxMap[addressAA] << endl;
+	}
+	return maxMap;
+}
+
+
+
+// Maps average frequency of codons to each amino acid
+vector<float> CodonFrequency::createAvgMap(multimap<char, pair<int, float> > AAtoCodonMap) {
+	
+	cout << "------avgFreq------" << endl;
+	
+	int addressAA;
+	int codonPerAA;	// Numbers of codons that code for an amino acid
+	float sumFreq;	// Sum of codon frequencies for an amino acid
+	float avgFreq;	// sumFreq/codonPerAA to calculate average frequency for an amino acid
+	vector<float> avgMap;
+	
+	for (char AA = 'A'; AA <= 'Z'; AA++) {
+
+		addressAA = AA-65;
+		codonPerAA = 0;
+		sumFreq = 0;
+		avgFreq = 0;
+
+		if (AA == 'B' || AA == 'J' || AA == 'O' || AA == 'U' || AA == 'X') { 
+			avgMap.push_back(-1);
+			cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
+//		continue;
+		}
+
+		else if (AAtoCodonMap.count(AA) > 1) {
+		
+			pair< multimap<char, pair<int, float> >::iterator, 
+			multimap<char, pair<int, float> >::iterator> ret;
+	
+			ret = AAtoCodonMap.equal_range(AA);
+			
+			for (multimap<char, pair<int, float> >::iterator it = ret.first; it != ret.second; ++it) {
+				cout << AA << " " << it->second.second << endl;
+				sumFreq += it->second.second;
+				codonPerAA++;
+			}
+
+			avgFreq = sumFreq/codonPerAA;
+			cout << sumFreq << " / " << codonPerAA << " = " << avgFreq << endl;
+			avgMap.push_back(avgFreq);
+			cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
+//			cout << AA << " " << avgMap[addressAA] << endl;
+			
+		} else if (AAtoCodonMap.count(AA) == 1) {
+			avgMap.push_back(AAtoCodonMap.find(AA)->second.second);
+			cout << addressAA << " " << AA << " " << avgMap[addressAA] << endl;
+		}
+		cout << endl;
+	}
+	return avgMap;
+}
+
+/*
+// Maps lowest frequency of codons to each amino acid
 map<char, float> CodonFrequency::createMinMap(multimap<char, pair<int, float> > AAtoCodonMap){
 
 	map<char, float> minMap;
@@ -274,7 +407,6 @@ map<char, float> CodonFrequency::createMinMap(multimap<char, pair<int, float> > 
 	return minMap;
 }
 
-
 // Maps highest frequency of codons to each amino acid
 map<char, float> CodonFrequency::createMaxMap(multimap<char, pair<int, float> > AAtoCodonMap){
 
@@ -299,6 +431,7 @@ map<char, float> CodonFrequency::createMaxMap(multimap<char, pair<int, float> > 
 	}
 	return maxMap;
 }
+*/
 
 
 // Setter for codonCount -- used for incrementing # of codons in sequence in incrOcc method
