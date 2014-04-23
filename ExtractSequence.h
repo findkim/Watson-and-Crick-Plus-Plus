@@ -27,10 +27,7 @@ public:
     void printSequences();
     void outputfile(char *);
     vector<Sequence> removeSeq(vector < Sequence >);
-<<<<<<< HEAD
-=======
     Sequence operator[](int);
->>>>>>> a5def008c0018ec777ae239ddd72211aff667b41
     
 private:
     vector<Sequence> Sequences; // vector of Sequence object
