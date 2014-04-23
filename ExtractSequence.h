@@ -19,12 +19,18 @@ using namespace std;
 
 class ExtractSequence{
 public:
-    ExtractSequence(char *);
+    ExtractSequence(char *); // constructor takes in filename
+    void getHeader(string); // get name and description from header line
+    Sequence getSequence(string);// searching for Sequence by name
+    int getSize(); // get the size of the Sequences vector
     ~ExtractSequence();
     void printSequences();
-    void getHeader(string);
     void outputfile(char *);
     vector<Sequence> removeSeq(vector < Sequence >);
+<<<<<<< HEAD
+=======
+    Sequence operator[](int);
+>>>>>>> a5def008c0018ec777ae239ddd72211aff667b41
     
 private:
     vector<Sequence> Sequences; // vector of Sequence object

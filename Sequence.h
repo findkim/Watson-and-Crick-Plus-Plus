@@ -27,6 +27,7 @@ public:
     int getSeqLength();
     int getNumCodon();			// Calculates the number of codons if seq is of proper length
     char *location_ptr;			// Stores location on sequence
+
     
 private:
     string seqName;				// Reference number for DNA/Protein sequence

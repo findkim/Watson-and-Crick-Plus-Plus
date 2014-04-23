@@ -60,6 +60,7 @@ void Sequence::printSeq(){
 }
 
 char Sequence :: operator[](int i){
+    // check out of range
     if (i<0 || i>seq.size()) {
 		if (i < 0 || i >= getSeqLength()) {
     		throw "Subscript out of range";
@@ -67,7 +68,7 @@ char Sequence :: operator[](int i){
     }
     return seq[i];
 }
-
+// add gap after i
 void Sequence :: addGap(int i){
     seq.insert(i+1,"-");
 }
