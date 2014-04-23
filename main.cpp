@@ -30,11 +30,11 @@ int main() {
     //cout << "++++++++++++++++++++++++++++++++++++" << endl;
     //testSequences.printSequences(1);
     //cout << "++++++++++++++++++++++++++++++++++++" << endl;
-    AlignmentCIGAR testCigar("ultimateORFS18608.fasta");
+//    AlignmentCIGAR testCigar("ultimateORFS18608.fasta");
     //string c = testCigar.cigarOneSeq(1);
     //cout << c << endl;
-    testCigar.setCigar();
-    testCigar.printCigar();
+//    testCigar.setCigar();
+//    testCigar.printCigar();
     //NeighborJoining testNJ("ultimateORFS18608.fasta");
     //testNJ.write_distance();
     //testNJ.print_distance();
@@ -45,8 +45,8 @@ int main() {
   
   // testing to verify the frequency calculations
 //  ExtractSequence codFreqTest("Ecol_test.fasta.short");
-//  ExtractSequence codFreqTest("Ecol_test.fasta");
-  ExtractSequence codFreqTest("Ypes.fasta");
+  ExtractSequence codFreqTest("Ecol_test.fasta");
+//  ExtractSequence codFreqTest("Ypes.fasta");
 //  ExtractSequence codFreqTest("Ecol_test.fasta.short.really");
 //  codFreqTest.printSequences();
 

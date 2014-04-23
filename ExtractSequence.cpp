@@ -9,6 +9,7 @@
 #include "ExtractSequence.h"
 #include "Sequence.h"
 #include "CodonFrequency.h"
+#include "MinMax.h"
 #include <iostream>
 #include <string>
 #include "string.h"
@@ -34,8 +35,8 @@ ExtractSequence :: ExtractSequence(char *filename){
             sequence.clear();// clear the sequence string to start storing a new sequence
             headers.clear(); // clear header vector to start storing new name and description
             getHeader(line); // get new name and description
-        }
-        else{
+
+        } else {
             sequence += line;
         }
     }
@@ -44,10 +45,15 @@ ExtractSequence :: ExtractSequence(char *filename){
     Sequences.push_back(seq);
     // If file is not file of alignments
     // Removes sequences that aren't proper length
-      if (sequence.find("-") && sequence.find("M")) {
-    	codonFreq = new CodonFrequency (removeSeq(Sequences));
-        outputfile(filename);
-	  } else {codonFreq = NULL;}
+    if (sequence.find("-") && sequence.find("M")) {
+    	codonFreq = new CodonFrequency (filename, removeSeq(Sequences));
+	   	minMax = new MinMax (filename, Sequences);
+//      outputfileCF(filename);
+      
+	  } else {
+	  	codonFreq = NULL;
+	  	minMax = NULL;
+	  }
 	  
     file.close();
 }
@@ -55,6 +61,8 @@ ExtractSequence :: ExtractSequence(char *filename){
 ExtractSequence :: ~ExtractSequence() {
 	if (codonFreq)
 		delete codonFreq;
+	if (minMax)
+		delete minMax;
 }
 
 
@@ -71,10 +79,10 @@ vector < Sequence > ExtractSequence::removeSeq(vector<Sequence> Sequences){
  	return Sequences;
 }
 
-
+/*
 // Creates an output file with the inputfile name with .cf appended
 // Output file contains codon frequencies from sequences
-void ExtractSequence::outputfile(char *filename){
+void ExtractSequence::outputfileCF(char *filename){
 
   string ofilename(filename);
 	ofilename.append(".cf");
@@ -85,13 +93,13 @@ void ExtractSequence::outputfile(char *filename){
   if (ofile.is_open()) {
 
   	codonFreq->outputFileCodonCount(ofile);
-	  //ofile << "how is the test working";
 	  ofile.close();
+	  
 		cout << ofilename << " has been created." << endl;
-		
 	} else cout << "Unable to open " << ofilename << endl;
 	
 }
+*/
 
 void ExtractSequence :: printSequences(){
 

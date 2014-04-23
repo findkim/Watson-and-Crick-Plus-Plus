@@ -14,6 +14,7 @@
 #include <vector>
 #include "Sequence.h"
 #include "CodonFrequency.h"
+#include "MinMax.h"
 
 using namespace std;
 
@@ -25,7 +26,8 @@ public:
     int getSize(); // get the size of the Sequences vector
     ~ExtractSequence();
     void printSequences();
-    void outputfile(char *);
+    void outputfileCF(char *);
+    void outputfileMM(char *);
     vector<Sequence> removeSeq(vector < Sequence >);
     Sequence operator[](int);
     
@@ -33,5 +35,6 @@ private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.
     CodonFrequency *codonFreq;	// Composition; calculates codon frequency for that seq (not for alignments)
+    MinMax *minMax;	// Composition: calculates minmax values from CodonFreq
 };
 #endif /* defined(____ExtractSequence__) */
