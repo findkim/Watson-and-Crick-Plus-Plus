@@ -7,10 +7,12 @@
 //
 
 #include "ExtractSequence.h"
+#include "Sequence.h"
 #include <iostream>
 #include <string>
+#include "string.h"
 #include <sstream>
-#include <fstream>
+#include <fstream>	// outfile
 #include <vector>
 using namespace std;
 
@@ -39,19 +41,15 @@ ExtractSequence :: ExtractSequence(char *filename){
     // store the last sequence in the file.
     Sequence seq (headers[0],headers[1],sequence);
     Sequences.push_back(seq);
+
 }
+
 void ExtractSequence :: printSequences(int i){
-    // iterate through all the Sequence objects in the vector and print the information and the sequence
-    /*for (int i = 0; i<Sequences.size(); i++) {
-        Sequences[i].print();
-        Sequences[i].printSeq();
-        cout << "-----------------------" << endl;
-    } */
-    // output the number of sequences in the file.
-    // cout << "Number of sequences: " << Sequences.size() << endl;
     Sequences[i].print();
     Sequences[i].printSeq();
 }
+
+
 // get name and description from header line
 void ExtractSequence :: getHeader(string line){
     int i=0;
@@ -94,3 +92,4 @@ int ExtractSequence :: getSize(){
 Sequence ExtractSequence :: operator[](int i){
     return Sequences[i];
 }
+

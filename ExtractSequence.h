@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include "Sequence.h"
+
 using namespace std;
 
 class ExtractSequence{
@@ -23,6 +24,7 @@ public:
     Sequence getSequence(string);// searching for Sequence by name
     int getSize(); // get the size of the Sequences vector
     Sequence operator[](int);
+    
 private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.

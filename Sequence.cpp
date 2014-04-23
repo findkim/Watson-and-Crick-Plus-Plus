@@ -9,13 +9,7 @@
 #include "Sequence.h"
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <fstream>
-#include <list>			// STL lists
 #include <vector>
-#include <iterator>	// ostream iterators
-
-const int FASTA_DESCRIPTION_LINE_NUM_ARG = 5;
 
 using namespace std;
 
