@@ -25,8 +25,6 @@ public:
     void getHeader(string);
     void outputfile(char *);
     vector<Sequence> removeSeq(vector < Sequence >);
-    /*void calAlignment();
-    void displayAlignment(); */
     
 private:
     vector<Sequence> Sequences; // vector of Sequence object
