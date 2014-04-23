@@ -25,11 +25,15 @@ public:
     string getSeq();
     string getSeqDescription();
     int getSeqLength();
+    int getNumCodon();			// Calculates the number of codons if seq is of proper length
+    char *location_ptr;			// Stores location on sequence
+
     
 private:
     string seqName;				// Reference number for DNA/Protein sequence
     string seqDescription;// Description of seqeuence
     string seq;				// Sequence of nucleotides or amino acids
     int seqLength;				// Length of string--converted string to int
+    int numCodon;					// Numbers of codons if of proper length (mult of 3)
 };
 #endif /* defined(____Sequence__) */

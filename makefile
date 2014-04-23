@@ -1,7 +1,7 @@
 all: main
 
-main: main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o
-	g++ main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o -o main
+main: main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o CodonFrequency.o MinMax.o
+	g++ main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o CodonFrequency.o -o main
 
 main.o: main.cpp
 	g++ -c main.cpp
@@ -14,6 +14,13 @@ ExtractSequence.o: ExtractSequence.cpp ExtractSequence.h
 
 AlignmentCIGAR.o: AlignmentCIGAR.cpp
 	g++ -c AlignmentCIGAR.cpp
+
+CodonFrequency.o: CodonFrequency.cpp CodonFrequency.h
+	g++ -c CodonFrequency.cpp -std=c++0x
+	# -std=c++0x used to compile struct like initialization for codon vector
+
+MinMax.o: MinMax.cpp MinMax.h
+	g++ -c MinMax.cpp
 
 
 clean:

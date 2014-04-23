@@ -19,9 +19,11 @@ Sequence :: Sequence(string name, string description, string sequence){
     seq = sequence;
     seqLength = seq.size();
 }
-string Sequence :: getSeq(){
-    return seq;
+
+string Sequence::getSeq(){
+	return seq;
 }
+
 string Sequence::getSeqName(){
 	return seqName;
 }
@@ -36,6 +38,12 @@ int Sequence::getSeqLength(){
 	return seqLength;
 }
 
+
+int Sequence::getNumCodon(){
+	if (getSeqLength()%3 == 0)
+		return getSeqLength()/3;
+	else return 0;
+}
 
 // Prints reference number, description, seq length
 void Sequence::print(){
