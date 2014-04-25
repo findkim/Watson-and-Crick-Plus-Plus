@@ -76,10 +76,13 @@ vector<float> MinMax::calcMinMax(Sequence &seq, vector<float> &minMap, vector<fl
 //			cout << "AA " << AA << " " << codonToAAMap[numCodonRep] << endl;
 
 			minFreqWindowSum += minMap[AA];
-//			cout << triplet << " " << minMap[AA] << " " << minFreqWindowSum << endl;
 			maxFreqWindowSum += maxMap[AA];
 			avgFreqWindowSum += avgMap[AA];
 			actualFreqWindowSum += codonFreq[numCodonRep];
+//			cout << "MIN " << triplet << " " << minMap[AA] << " " << minFreqWindowSum << endl;
+//			cout << "MAX " << triplet << " " << maxMap[AA] << " " << maxFreqWindowSum << endl;
+//			cout << "AVG " << triplet << " " << avgMap[AA] << " " << avgFreqWindowSum << endl;
+//			cout << "ACT " << triplet << " " << codonFreq[numCodonRep] << " " << actualFreqWindowSum << endl;
 		}
 		
 		minFreqWindowAvg = minFreqWindowSum / WINDOWSIZE;
@@ -88,6 +91,9 @@ vector<float> MinMax::calcMinMax(Sequence &seq, vector<float> &minMap, vector<fl
 		actualFreqWindowAvg = actualFreqWindowSum / WINDOWSIZE;
 		
 //		cout << "minFreqWindowAvg " << minFreqWindowAvg << endl;
+//		cout << "maxFreqWindowAvg " << maxFreqWindowAvg << endl;
+//		cout << "avgFreqWindowAvg " << avgFreqWindowAvg << endl;
+//		cout << "actualFreqWindowAvg " << actualFreqWindowAvg << endl;
 		
 		percentMax = (actualFreqWindowAvg - avgFreqWindowAvg) / (maxFreqWindowAvg - avgFreqWindowAvg) * 100;
 		
@@ -116,12 +122,14 @@ void MinMax::outputFileMM(char *file, vector< pair< string, vector<float> > > mi
 		for (int i = 0; i < minMaxSequences.size(); i++) {
 
 			ofile << minMaxSequences[i].first;
-			ofile << endl;
+//			ofile << endl;
+			ofile << "\t";
 
 			for (int j = 0; j < minMaxSequences[i].second.size(); j++) {
 			
 				ofile << minMaxSequences[i].second[j];
-				ofile << ",";
+//				ofile << ",";
+				ofile << "\t";
 			}
 			ofile << endl;
 		}

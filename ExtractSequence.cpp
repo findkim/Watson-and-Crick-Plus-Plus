@@ -46,12 +46,9 @@ ExtractSequence :: ExtractSequence(char *filename){
     // If file is not file of alignments
     // Removes sequences that aren't proper length
     if (sequence.find("-") && sequence.find("M")) {
-    	codonFreq = new CodonFrequency (filename, removeSeq(Sequences));
-	   	minMax = new MinMax (filename, Sequences);
-//      outputfileCF(filename);
+	   	minMax = new MinMax (filename, removeSeq(Sequences));
       
 	  } else {
-	  	codonFreq = NULL;
 	  	minMax = NULL;
 	  }
 	  
@@ -59,8 +56,7 @@ ExtractSequence :: ExtractSequence(char *filename){
 }
 
 ExtractSequence :: ~ExtractSequence() {
-	if (codonFreq)
-		delete codonFreq;
+
 	if (minMax)
 		delete minMax;
 }

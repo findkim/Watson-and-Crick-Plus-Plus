@@ -45,8 +45,8 @@ int main() {
   
   // testing to verify the frequency calculations
 //  ExtractSequence codFreqTest("Ecol_test.fasta.short");
-  ExtractSequence codFreqTest("Ecol_test.fasta");
-//  ExtractSequence codFreqTest("Ypes.fasta");
+//  ExtractSequence codFreqTest("Ecol_test.fasta");
+  ExtractSequence codFreqTest("Ypes.fasta");
 //  ExtractSequence codFreqTest("Ecol_test.fasta.short.really");
 //  codFreqTest.printSequences();
 

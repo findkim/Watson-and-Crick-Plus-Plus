@@ -116,6 +116,7 @@ void CodonFrequency::calcFreq(vector<Sequence> &seq) {
 //	cout << "codon count = " << getCodonCount() << endl;
 	for (int k = 0; k < NUM_TYPE_OF_CODONS; k++) {
 		codonFreq[k] = (float) codonOcc[k] / count * 1000;
+//		cout << k << "	" << codonFreq[k] << " = " << codonOcc[k] << " / " << count << endl;
 	}
 }
 
@@ -193,6 +194,7 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[64])
 			else if (i >= 48 && i <= 49 || i == 52) {		// Stop codons
 				AA = 'Z';
 			}
+//			cout << AA << " " << codonFreq[i] << endl;
 			pair<char, pair<int, float> > temp2 (AA, temp);
 			AAtoCodonMap.insert (temp2);
 	}

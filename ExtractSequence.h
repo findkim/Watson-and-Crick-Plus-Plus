@@ -34,7 +34,6 @@ public:
 private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.
-    CodonFrequency *codonFreq;	// Composition; calculates codon frequency for that seq (not for alignments)
     MinMax *minMax;	// Composition: calculates minmax values from CodonFreq
 };
 #endif /* defined(____ExtractSequence__) */
