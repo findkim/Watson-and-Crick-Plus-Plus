@@ -25,8 +25,10 @@ using namespace std;
 class MinMax : public CodonFrequency {
 
 	public:
-			MinMax(char *, vector<Sequence>);
-			void outputFileMM(char *, vector< pair< string, vector<float> > >);
+		MinMax(char *, vector<Sequence>);
+			// Calculates MinMax values for each codon and calls outputFileMM
+		void outputFileMM(char *, vector< pair< string, vector<float> > >);
+			// outputs gene in format of minmax values to filename.mm
 			
 	private:
 		vector< pair< string, vector<float> > > minMaxSequences;

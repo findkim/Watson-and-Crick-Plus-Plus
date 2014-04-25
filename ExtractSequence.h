@@ -13,27 +13,24 @@
 #include <string>
 #include <vector>
 #include "Sequence.h"
-#include "CodonFrequency.h"
 #include "MinMax.h"
 
 using namespace std;
 
 class ExtractSequence{
-public:
+
+	public:
     ExtractSequence(char *); // constructor takes in filename
+    vector<Sequence> getVectorOfSequences();	// Returns the vector of sequences
+		Sequence getSequence(string);// searching for Sequence by name
     void getHeader(string); // get name and description from header line
-    Sequence getSequence(string);// searching for Sequence by name
     int getSize(); // get the size of the Sequences vector
-    ~ExtractSequence();
     void printSequences();
-    void outputfileCF(char *);
-    void outputfileMM(char *);
-    vector<Sequence> removeSeq(vector < Sequence >);
     Sequence operator[](int);
     
-private:
+	private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.
-    MinMax *minMax;	// Composition: calculates minmax values from CodonFreq
+
 };
 #endif /* defined(____ExtractSequence__) */

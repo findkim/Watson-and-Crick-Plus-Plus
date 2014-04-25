@@ -29,6 +29,10 @@ const int NUM_TYPE_OF_CODONS = 64;
 
 CodonFrequency::CodonFrequency(char *filename, vector<Sequence> seq) {
 
+	// initializes codonOcc array to 0
+	for (int i = 0; i < NUM_TYPE_OF_CODONS; i++) {
+		codonOcc[i] = 0;
+	}
 
 	cout << "Calculating codon frequency..." << endl;
 /*
@@ -54,10 +58,12 @@ CodonFrequency::CodonFrequency(char *filename, vector<Sequence> seq) {
 	       'TAT' => 'Y', 'TAC' => 'Y',
 	       'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
+	// string of all codons
 	string codonStr = "AAAAAGAACAATAGAAGGAGCAGTACAACGACCACTATAATGATCATTGAAGAGGACGATGGAGGGGGCGGTGCAGCGGCCGCTGTAGTGGTCGTTCAACAGCACCATCGACGGCGCCGTCCACCGCCCCCTCTACTGCTCCTTTAATAGTACTATTGATGGTGCTGTTCATCGTCCTCTTTATTGTTCTTT";
 	codonToAAMap = createCodonToAAMap(codonStr, codonMap);
 
-	calcFreq(seq);
+	vector<Sequence> Sequences = removeSeq(seq);
+	calcFreq(Sequences);
 
 	AAtoCodonMap = createMap(codonFreq);
 	printMap(AAtoCodonMap);
@@ -70,6 +76,19 @@ CodonFrequency::CodonFrequency(char *filename, vector<Sequence> seq) {
 }
 
 
+// Does not initialize codonFreq for alignments
+// Removes sequences that are divisible by 3
+vector<Sequence> CodonFrequency::removeSeq(vector<Sequence> &Sequences){
+
+	for (int i = 0; i < Sequences.size(); i++) {
+  	if (Sequences[i].getSeqLength()%3 != 0) {
+   		Sequences.erase (Sequences.begin()+i);
+   		cout << Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
+ 		}
+ 	}
+ 	return Sequences;
+}
+
 
 // Increments codon occurance for every triplet in the sequence
 // Increments the number of codons in sequence with setter method
@@ -77,13 +96,13 @@ CodonFrequency::CodonFrequency(char *filename, vector<Sequence> seq) {
 void CodonFrequency::calcFreq(vector<Sequence> &seq) {
 
 	int count = 0;
+	
 	for (int k = 0; k < seq.size(); k++) {
 
 			string tempStr = seq[k].getSeq();
 //			cout << tempStr << endl;
 
-			for (string::iterator itr = tempStr.begin(), 
-			end = tempStr.end(); itr != end; ++itr) {
+			for (string::iterator itr = tempStr.begin(); itr != tempStr.end(); ++itr) {
 				
 				// A 00 -- G 01 -- C 10 -- T 11
 				int binaryRep = 0;
@@ -107,13 +126,14 @@ void CodonFrequency::calcFreq(vector<Sequence> &seq) {
 				else if (*itr == 'C') binaryRep += 2;				// xxxx10
 				else if (*itr == 'T') binaryRep += (2+1);		// xxxx11
 
-//				cout << "The binary rep is " << binaryRep << endl;
-				codonOcc[binaryRep]++;
+				codonOcc[binaryRep] = codonOcc[binaryRep] + 1;
+//				cout << "The binary rep is " << binaryRep << "\tThe num of occ = " << codonOcc[binaryRep] << endl;
 				count++;
 			}
 	}
+	cout << endl;
 	set_codonCount(count);	// Increments with setter; codonCount is private data member
-//	cout << "codon count = " << getCodonCount() << endl;
+	cout << "codon count = " << getCodonCount() << endl;
 	for (int k = 0; k < NUM_TYPE_OF_CODONS; k++) {
 		codonFreq[k] = (float) codonOcc[k] / count * 1000;
 //		cout << k << "	" << codonFreq[k] << " = " << codonOcc[k] << " / " << count << endl;
@@ -130,7 +150,7 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[64])
 	for (int i = 0; i < NUM_TYPE_OF_CODONS; i++) {
 
 		pair <int, float> temp (i, codonFreq[i]);
-		//cout << temp.first << " " << temp.second << endl;
+//		cout << temp.first << " " << temp.second << endl;
 			if (i >= 24 && i <= 27) {							// A
 				AA = 'A';
 			}

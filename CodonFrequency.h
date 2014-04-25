@@ -30,6 +30,8 @@ class CodonFrequency {
 		CodonFrequency(char *, vector<Sequence>);			
 			// Initializes codon vector with codon triplets and # of occurances
 		//~CodonFrequency();
+    vector<Sequence> removeSeq(vector <Sequence> &);
+    	// Removes sequences from vector that are not proper length (n%3 ==0)
 		int getCodonCount();
 			// Getter for codonCount
 		void set_codonCount(int);
@@ -88,7 +90,6 @@ class CodonFrequency {
 		vector<float> avgMap;
 		int *codonToAAMap;
 		int codonMap[64];
-			
 
 };
 

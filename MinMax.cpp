@@ -24,7 +24,7 @@ using namespace std;
 
 MinMax::MinMax(char *filename, vector<Sequence> seq)
 	: CodonFrequency(filename, seq) {
-	
+
 	vector<float> minMap = getMinMap();
 	vector<float> maxMap = getMaxMap();
 	vector<float> avgMap = getAvgMap();
@@ -68,11 +68,10 @@ vector<float> MinMax::calcMinMax(Sequence &seq, vector<float> &minMap, vector<fl
 		for (int j = 0; j < WINDOWSIZE*3; j+=3) {
 		
 			string triplet = seqStr.substr(i+j,3);
-//			cout << "innner for loop" << endl;
 			numCodonRep = CodonFrequency::codonStrToBinaryRep(triplet);
+			AA = codonToAAMap[numCodonRep];
 //			cout << seqStr << endl;
 //			cout << "numcodonRep = " << numCodonRep << endl;
-			AA = codonToAAMap[numCodonRep];
 //			cout << "AA " << AA << " " << codonToAAMap[numCodonRep] << endl;
 
 			minFreqWindowSum += minMap[AA];
