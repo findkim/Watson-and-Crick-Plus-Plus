@@ -51,23 +51,23 @@ set style fill solid noborder
 #	MinMax Plots
 #
 # plot 'datafile' using #column
-plot 'Ypes.fasta.csv' using ($1 > 0 ? $1 : 0) linecolor rgb "#0000FF", "" using ($1 < 0 ? $1 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($1 > 0 ? $1 : 0) linecolor rgb "#0000FF", "" using ($1 < 0 ? $1 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($2 > 0 ? $2 : 0) linecolor rgb "#0000FF", "" using ($2 < 0 ? $2 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($2 > 0 ? $2 : 0) linecolor rgb "#0000FF", "" using ($2 < 0 ? $2 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($3 > 0 ? $3 : 0) linecolor rgb "#0000FF", "" using ($3 < 0 ? $3 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($3 > 0 ? $3 : 0) linecolor rgb "#0000FF", "" using ($3 < 0 ? $3 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($4 > 0 ? $4 : 0) linecolor rgb "#0000FF", "" using ($4 < 0 ? $4 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($4 > 0 ? $4 : 0) linecolor rgb "#0000FF", "" using ($4 < 0 ? $4 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($5 > 0 ? $5 : 0) linecolor rgb "#0000FF", "" using ($5 < 0 ? $5 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($5 > 0 ? $5 : 0) linecolor rgb "#0000FF", "" using ($5 < 0 ? $5 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($6 > 0 ? $6 : 0) linecolor rgb "#0000FF", "" using ($6 < 0 ? $6 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($6 > 0 ? $6 : 0) linecolor rgb "#0000FF", "" using ($6 < 0 ? $6 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($7 > 0 ? $7 : 0) linecolor rgb "#0000FF", "" using ($7 < 0 ? $7 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($7 > 0 ? $7 : 0) linecolor rgb "#0000FF", "" using ($7 < 0 ? $7 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($8 > 0 ? $8 : 0) linecolor rgb "#0000FF", "" using ($8 < 0 ? $8 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($8 > 0 ? $8 : 0) linecolor rgb "#0000FF", "" using ($8 < 0 ? $8 : -0.05) linecolor rgb "#FF00FF"
 
-plot 'Ypes.fasta.csv' using ($9 > 0 ? $9 : 0) linecolor rgb "#0000FF", "" using ($9 < 0 ? $9 : 0) linecolor rgb "#FF00FF"
+plot 'Ypes.fasta.csv' using ($9 > 0 ? $9 : 0) linecolor rgb "#0000FF", "" using ($9 < 0 ? $9 : -0.05) linecolor rgb "#FF00FF"
 
 
 
