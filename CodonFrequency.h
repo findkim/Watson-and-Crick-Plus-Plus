@@ -27,21 +27,23 @@ using namespace std;
 class CodonFrequency {
 
 	public:
-		CodonFrequency(vector<Sequence>);			
+		CodonFrequency(char *, vector<Sequence>);			
 			// Initializes codon vector with codon triplets and # of occurances
 		//~CodonFrequency();
+    vector<Sequence> removeSeq(vector <Sequence> &);
+    	// Removes sequences from vector that are not proper length (n%3 ==0)
 		int getCodonCount();
 			// Getter for codonCount
 		void set_codonCount(int);
 			// Setter for codonCount
-		void calcFreq(vector<Sequence>);	
+		void calcFreq(vector<Sequence> &);	
 			// Increments codon occurance & counts # of codons
 			// Calculates freq -- #ofOcc/codonCount
 		void printCodonCount();
 			// Prints number of occurances and count
 		void printFreq();
 			// Prints codon frequency for a seq
-		void outputFileCodonCount(ofstream &);	
+		void outputFileCF(char *file);	
 			// Spits Codon|Codon Freq|count into output file name string
 		string decimalToBinary(int);
 			// Converts decimal number to 6 bit string
@@ -66,7 +68,7 @@ class CodonFrequency {
 			// Stores frequency for each codon
 		int codonCount;
 			// Total number of codons in sequences used to calculate frequency
-		int *createCodonToAAMap(string);
+		int *createCodonToAAMap(string, int []);
 		multimap<char, pair<int, float> > AAtoCodonMap;
 			// Maps all codons with frequency to corresponding amino acid
 		multimap<char, pair<int, float> > createMap(float []);
@@ -87,7 +89,7 @@ class CodonFrequency {
 		vector<float> maxMap;
 		vector<float> avgMap;
 		int *codonToAAMap;
-			
+		int codonMap[64];
 
 };
 

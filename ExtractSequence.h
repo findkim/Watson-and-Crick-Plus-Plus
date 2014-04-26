@@ -13,21 +13,20 @@
 #include <string>
 #include <vector>
 #include "Sequence.h"
-#include "CodonFrequency.h"
+#include "MinMax.h"
 
 using namespace std;
 
 class ExtractSequence{
-public:
+
+	public:
     ExtractSequence(char *); // constructor takes in filename
-    ExtractSequence(); // default constructor
-    void getHeader(string); // get name and description from header line
+    //ExtractSequence(); // default constructor
+    vector<Sequence> getVectorOfSequences();	// Returns the vector of sequences
     Sequence getSequence(string);// searching for Sequence by name
+    void getHeader(string); // get name and description from header line
     int getSize(); // get the size of the Sequences vector
-    ~ExtractSequence();
     void printSequences();
-    //void outputfile(char *);
-    //vector<Sequence> removeSeq(vector < Sequence >);
     Sequence operator[](int);
     void addSequence(Sequence);
     void remove1Seq(int); // remove 1 sequence from the vector
@@ -36,6 +35,5 @@ public:
 private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.
-    //CodonFrequency *codonFreq;	// Composition; calculates codon frequency for that seq (not for alignments)
 };
 #endif /* defined(____ExtractSequence__) */

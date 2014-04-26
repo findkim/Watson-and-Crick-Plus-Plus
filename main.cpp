@@ -12,6 +12,7 @@
 #include "ExtractSequence.h"
 #include "AlignmentCIGAR.h"
 #include "Alignment.h"
+#include "MinMax.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -30,14 +31,12 @@ int main() {
     //cout << "++++++++++++++++++++++++++++++++++++" << endl;
     //testSequences.printSequences(1);
     //cout << "++++++++++++++++++++++++++++++++++++" << endl;
-    AlignmentCIGAR testCigar("ultimateORFS18608.fasta");
-    //string c = testCigar.cigarOneSeq(1);
-    //cout << c << endl;
-    testCigar.setCigar();
-    testCigar.printCigar();
     Alignment testAlign("ultimateORFS3710.fasta");
     testAlign.alignAll();
     testAlign.printAlignment();
+    AlignmentCIGAR testCigar("ultimateORFS18608.fasta");
+    testCigar.setCigar();
+    testCigar.printCigar();
     //testAlign.printTables(); // TEST
     
     /*string a1 = "ATCT--TGA";
@@ -76,12 +75,13 @@ int main() {
     cout << b << endl;
     cout << a1 << endl;
     cout << b1 << endl; */
-
+//    testCigar.setCigar();
+//    testCigar.printCigar();
     //NeighborJoining testNJ("ultimateORFS18608.fasta");
     //testNJ.write_distance();
     //testNJ.print_distance();
-//	ExtractSequence test("NM_000927.4.fas");
-//	test.printSequences();
+
+
 //    ExtractSequence testSequences("nucSampleAlignment.fa");
 //    testSequences.printSequences();
   
@@ -91,6 +91,7 @@ int main() {
   //ExtractSequence codFreqTest("Ypes.fasta");
 //  ExtractSequence codFreqTest("Ecol_test.fasta.short.really");
 //  codFreqTest.printSequences();
-
+  ExtractSequence codFreq("Ypes.fasta");
+  MinMax calcMinMax("Ypes.fasta", codFreq.getVectorOfSequences());
 	return 0;
 }

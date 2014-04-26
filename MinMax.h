@@ -17,18 +17,23 @@
 #include "CodonFrequency.h"
 #include <map>
 #include <vector>
+#include <utility>
+#include <string>
 
 using namespace std;
 
 class MinMax : public CodonFrequency {
 
 	public:
-			MinMax(vector<Sequence>);
+		MinMax(char *, vector<Sequence>);
+			// Calculates MinMax values for each codon and calls outputFileMM
+		void outputFileMM(char *, vector< pair< string, vector<float> > >);
+			// outputs gene in format of minmax values to filename.mm
 			
 	private:
-		vector< vector<float> > minMaxSequences;
+		vector< pair< string, vector<float> > > minMaxSequences;
 			// Vector of %Min, %Max calculations in order of the sequence.
-		vector<float> calcMinMax(Sequence, vector<float>, vector<float>, vector<float>, float *, int *);
+		vector<float> calcMinMax(Sequence &, vector<float> &, vector<float> &, vector<float> &, float *, int *);
 			// a sequence, minMap, maxMap, avgMap, codonFreq, codonToAAMap
 			// Calculates min, max, avg, and actual average frequencies for a codon window
 };

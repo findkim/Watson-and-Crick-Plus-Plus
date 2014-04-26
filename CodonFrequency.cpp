@@ -27,8 +27,12 @@ using namespace std;
 
 const int NUM_TYPE_OF_CODONS = 64;
 
-CodonFrequency::CodonFrequency(vector<Sequence> seq) {
+CodonFrequency::CodonFrequency(char *filename, vector<Sequence> seq) {
 
+	// initializes codonOcc array to 0
+	for (int i = 0; i < NUM_TYPE_OF_CODONS; i++) {
+		codonOcc[i] = 0;
+	}
 
 	cout << "Calculating codon frequency..." << endl;
 /*
@@ -54,10 +58,12 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 	       'TAT' => 'Y', 'TAC' => 'Y',
 	       'TAA' => '*', 'TAG' => '*', 'TGA' => '*');
 */
+	// string of all codons
 	string codonStr = "AAAAAGAACAATAGAAGGAGCAGTACAACGACCACTATAATGATCATTGAAGAGGACGATGGAGGGGGCGGTGCAGCGGCCGCTGTAGTGGTCGTTCAACAGCACCATCGACGGCGCCGTCCACCGCCCCCTCTACTGCTCCTTTAATAGTACTATTGATGGTGCTGTTCATCGTCCTCTTTATTGTTCTTT";
-	codonToAAMap = createCodonToAAMap(codonStr);
+	codonToAAMap = createCodonToAAMap(codonStr, codonMap);
 
-	calcFreq(seq);
+	vector<Sequence> Sequences = removeSeq(seq);
+	calcFreq(Sequences);
 
 	AAtoCodonMap = createMap(codonFreq);
 	printMap(AAtoCodonMap);
@@ -65,23 +71,38 @@ CodonFrequency::CodonFrequency(vector<Sequence> seq) {
 	maxMap = createMaxMap(AAtoCodonMap);
 	avgMap = createAvgMap(AAtoCodonMap);
 	cout << "Finished calculations." << endl; 
+	
+	outputFileCF(filename);
 }
 
+
+// Does not initialize codonFreq for alignments
+// Removes sequences that are divisible by 3
+vector<Sequence> CodonFrequency::removeSeq(vector<Sequence> &Sequences){
+
+	for (int i = 0; i < Sequences.size(); i++) {
+  	if (Sequences[i].getSeqLength()%3 != 0) {
+   		Sequences.erase (Sequences.begin()+i);
+   		cout << Sequences[i].getSeqName() << " " << Sequences[i].getSeqDescription() << " has been removed from codon frequency calculations due to improper length." << endl;
+ 		}
+ 	}
+ 	return Sequences;
+}
 
 
 // Increments codon occurance for every triplet in the sequence
 // Increments the number of codons in sequence with setter method
 // Calculates codon frequency
-void CodonFrequency::calcFreq(vector<Sequence> seq) {
+void CodonFrequency::calcFreq(vector<Sequence> &seq) {
 
 	int count = 0;
-	for (int k = 0; k < seq.size(); k++) {
 	
+	for (int k = 0; k < seq.size(); k++) {
+
 			string tempStr = seq[k].getSeq();
 //			cout << tempStr << endl;
 
-			for (string::iterator itr = tempStr.begin(), 
-			end = tempStr.end(); itr != end; ++itr) {
+			for (string::iterator itr = tempStr.begin(); itr != tempStr.end(); ++itr) {
 				
 				// A 00 -- G 01 -- C 10 -- T 11
 				int binaryRep = 0;
@@ -105,29 +126,31 @@ void CodonFrequency::calcFreq(vector<Sequence> seq) {
 				else if (*itr == 'C') binaryRep += 2;				// xxxx10
 				else if (*itr == 'T') binaryRep += (2+1);		// xxxx11
 
-//				cout << "The binary rep is " << binaryRep << endl;
-				codonOcc[binaryRep]++;
+				codonOcc[binaryRep] = codonOcc[binaryRep] + 1;
+//				cout << "The binary rep is " << binaryRep << "\tThe num of occ = " << codonOcc[binaryRep] << endl;
 				count++;
 			}
 	}
+	cout << endl;
 	set_codonCount(count);	// Increments with setter; codonCount is private data member
-
+	cout << "codon count = " << getCodonCount() << endl;
 	for (int k = 0; k < NUM_TYPE_OF_CODONS; k++) {
 		codonFreq[k] = (float) codonOcc[k] / count * 1000;
+//		cout << k << "	" << codonFreq[k] << " = " << codonOcc[k] << " / " << count << endl;
 	}
 }
 
 
 // Maps all codons with frequency to corresponding amino acid
-multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
-	
+multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[64]) {
+
 	multimap<char, pair<int, float> > AAtoCodonMap;
 	char AA;
 	
 	for (int i = 0; i < NUM_TYPE_OF_CODONS; i++) {
 
 		pair <int, float> temp (i, codonFreq[i]);
-		//cout << temp.first << " " << temp.second << endl;
+//		cout << temp.first << " " << temp.second << endl;
 			if (i >= 24 && i <= 27) {							// A
 				AA = 'A';
 			}
@@ -191,6 +214,7 @@ multimap<char, pair<int, float> > CodonFrequency::createMap(float codonFreq[]) {
 			else if (i >= 48 && i <= 49 || i == 52) {		// Stop codons
 				AA = 'Z';
 			}
+//			cout << AA << " " << codonFreq[i] << endl;
 			pair<char, pair<int, float> > temp2 (AA, temp);
 			AAtoCodonMap.insert (temp2);
 	}
@@ -503,9 +527,8 @@ int CodonFrequency::codonStrToBinaryRep(string codonStr) {
 
 
 // Converts codon to amino acid number representation 0-25
-int * CodonFrequency::createCodonToAAMap(string codonStr) {
+int * CodonFrequency::createCodonToAAMap(string codonStr, int CodontoAA[64]) {
 
-	int codonToAAMap[64];
 	for (int j = 0; j < codonStr.size(); j+=3) {
 
 		string triplet = codonStr.substr(j,3);
@@ -515,73 +538,76 @@ int * CodonFrequency::createCodonToAAMap(string codonStr) {
 		int i = binaryRep;
 
 		if (i >= 24 && i <= 27) {							// A
-			codonToAAMap[binaryRep] = 'A'-65;
+			CodontoAA[binaryRep] = 'A'-65;
 		}
 		else if (i >= 54 && i <= 55) {				// C
-			codonToAAMap[binaryRep] = 'C'-65;
+			CodontoAA[binaryRep] = 'C'-65;
 		}
 		else if (i >= 18 && i <= 19) {				// D
-			codonToAAMap[binaryRep] = 'D'-65;
+			CodontoAA[binaryRep] = 'D'-65;
 		}
 		else if (i >= 16 && i <= 17) {				// E
-			codonToAAMap[binaryRep] = 'E'-65;
+			CodontoAA[binaryRep] = 'E'-65;
 		}
 		else if (i >= 62 && i <= 63) {				// F
-			codonToAAMap[binaryRep] = 'F'-65;
+			CodontoAA[binaryRep] = 'F'-65;
 		}
 		else if (i >= 20 && i <= 23) {				// G
-			codonToAAMap[binaryRep] = 'G'-65;
+			CodontoAA[binaryRep] = 'G'-65;
 		}
 		else if (i >= 34 && i <= 35) {				// H
-			codonToAAMap[binaryRep] = 'H'-65;
+			CodontoAA[binaryRep] = 'H'-65;
 		}
 		else if (i == 12 || i == 14 || i == 15) {				// I
-			codonToAAMap[binaryRep] = 'I'-65;
+			CodontoAA[binaryRep] = 'I'-65;
 		}
 		else if (i >= 0 && i <= 1) {					// K
-			codonToAAMap[binaryRep] = 'K'-65;
+			CodontoAA[binaryRep] = 'K'-65;
 		}
 		else if (i >= 60 && i <= 61 || i >= 44 && i <= 47) {				// L
-			codonToAAMap[binaryRep] = 'L'-65;
+			CodontoAA[binaryRep] = 'L'-65;
 		}
 		else if (i == 13) {										// M
-			codonToAAMap[binaryRep] = 'M'-65;
+			CodontoAA[binaryRep] = 'M'-65;
 		}
 		else if (i >= 2 && i <= 3) {				// N
-			codonToAAMap[binaryRep] = 'N'-65;
+			CodontoAA[binaryRep] = 'N'-65;
 		}
 		else if (i >= 40 && i <= 43) {				// P
-			codonToAAMap[binaryRep] = 'P'-65;
+			CodontoAA[binaryRep] = 'P'-65;
 		}
 		else if (i >= 32 && i <= 33) {				// Q
-			codonToAAMap[binaryRep] = 'Q'-65;
+			CodontoAA[binaryRep] = 'Q'-65;
 		}
 		else if (i >= 36 && i <= 39 || i >= 4 && i <= 5) {				// R
-			codonToAAMap[binaryRep] = 'R'-65;
+			CodontoAA[binaryRep] = 'R'-65;
 		}
 		else if (i >= 56 && i <= 59 || i >= 6 && i <= 7) {				// S
-			codonToAAMap[binaryRep] = 'S'-65;
+			CodontoAA[binaryRep] = 'S'-65;
 		}
 		else if (i >= 8 && i <= 11) {					// T
-			codonToAAMap[binaryRep] = 'T'-65;
+			CodontoAA[binaryRep] = 'T'-65;
 		}
 		else if (i >= 28 && i <= 31) {				// V
-			codonToAAMap[binaryRep] = 'V'-65;
+			CodontoAA[binaryRep] = 'V'-65;
 		}
 		else if (i == 53) {				// W
-			codonToAAMap[binaryRep] = 'W'-65;
+			CodontoAA[binaryRep] = 'W'-65;
 		}
 		else if (i >= 50 && i <= 51) {				// Y
-			codonToAAMap[binaryRep] = 'Y'-65;
+			CodontoAA[binaryRep] = 'Y'-65;
 		}
 		else if (i >= 48 && i <= 49 || i == 52) {		// Stop codons
-			codonToAAMap[binaryRep] = 'Z'-65;
+			CodontoAA[binaryRep] = 'Z'-65;
+		}
+		else {
+			CodontoAA[binaryRep] = -1;
 		}
 	}
 //	for (int i = 0; i < 64; i++) {
-//		cout << i << " " << codonToAAMap[i] << endl;
+//		cout << i << " " << CodontoAA[i] << endl;
 //	}
-	return codonToAAMap;
+	return CodontoAA;
 }
 
 
@@ -590,22 +616,34 @@ int * CodonFrequency::getCodonToAAMap() {
 }
 
 
-// Stores frequency and # of occurances for each codon for the vector of sequences in an output file
-void CodonFrequency::outputFileCodonCount(ofstream &ofilename) {
+// Creates an output file with the inputfile name with .cf appended
+// Output file contains codon, codon frequency, and # of occurances
+void CodonFrequency::outputFileCF(char *file) {
 
+  string ofilename(file);
+	ofilename.append(".cf");
 
-	for (int i = 0, count = 0; i < NUM_TYPE_OF_CODONS; i++, count++) {
+  ofstream ofile;
+  ofile.open (ofilename.c_str());
 
-		string binaryStr = decimalToBinary(i);
-		string codon = binaryToCodon(binaryStr);
-		
-		ofilename << codon;
+  if (ofile.is_open()) {
+  
+		for (int i = 0, count = 0; i < NUM_TYPE_OF_CODONS; i++, count++) {
+	
+			string binaryStr = decimalToBinary(i);
+			string codon = binaryToCodon(binaryStr);
 
-		ofilename << " ";
-		ofilename << codonFreq[i];
-		ofilename << " (";
-		ofilename << codonOcc[i];
-		ofilename << ")";
-		ofilename << endl;
-	}
+			ofile << codon;
+			ofile << " ";
+			ofile << codonFreq[i];
+			ofile << " (";
+			ofile << codonOcc[i];
+			ofile << ")";
+			ofile << endl;
+		}
+
+	  ofile.close();
+		cout << ofilename << " has been created." << endl;
+
+	} else cout << "Unable to open " << ofilename << endl;
 }
