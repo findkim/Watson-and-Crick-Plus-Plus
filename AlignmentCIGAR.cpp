@@ -45,7 +45,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
     // append to cigar string when the state changes.
     for (int j = 0; j<ref.size(); j++) {
         ostringstream oss;
-        if (sequences[i][j]!='-' && ref[j]!='-') {
+        if (sequences[i][j]!="-" && ref[j]!='-') {
             if (change == 1) {
                 match ++;
             }
@@ -69,7 +69,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
             }
             change = 1;
         }
-        if(sequences[i][j]!='-' && ref[j]=='-'){
+        if(sequences[i][j]!="-" && ref[j]=='-'){
             if (change == 1) {
                 oss << temp << match;
                 c.append(oss.str());
@@ -93,7 +93,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
             }
             change = 2;
         }
-        if (sequences[i][j]=='-' && ref[j]!='-') {
+        if (sequences[i][j]=="-" && ref[j]!='-') {
             if (change == 1) {
                 oss << temp << match;
                 c.append(oss.str());
@@ -117,7 +117,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
             }
             change = 3;
         }
-        if (sequences[i][j]=='-' && ref[j]=='-') {
+        if (sequences[i][j]=="-" && ref[j]=='-') {
             if (change == 1) {
                 oss << temp << match;
                 c.append(oss.str());

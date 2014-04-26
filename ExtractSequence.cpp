@@ -44,23 +44,28 @@ ExtractSequence :: ExtractSequence(char *filename){
     Sequences.push_back(seq);
     // If file is not file of alignments
     // Removes sequences that aren't proper length
-      if (sequence.find("-") && sequence.find("M")) {
+    
+    /*
+    if (sequence.find("-") && sequence.find("M")) {
     	codonFreq = new CodonFrequency (removeSeq(Sequences));
         outputfile(filename);
 	  } else {codonFreq = NULL;}
-	  
+	  */
     file.close();
+}
+ExtractSequence :: ExtractSequence(){
+    //codonFreq = NULL;
 }
 
 ExtractSequence :: ~ExtractSequence() {
-	if (codonFreq)
-		delete codonFreq;
+	/*if (codonFreq)
+		delete codonFreq; */
 }
 
 
 // Does not initialize codonFreq for alignments
 // Removes sequences that are divisible by 3
-vector < Sequence > ExtractSequence::removeSeq(vector<Sequence> Sequences){
+/*vector < Sequence > ExtractSequence::removeSeq(vector<Sequence> Sequences){
 
 	for (int i = 0; i < Sequences.size(); i++) {
   	if (Sequences[i].getSeqLength()%3 != 0) {
@@ -70,7 +75,6 @@ vector < Sequence > ExtractSequence::removeSeq(vector<Sequence> Sequences){
  	}
  	return Sequences;
 }
-
 
 // Creates an output file with the inputfile name with .cf appended
 // Output file contains codon frequencies from sequences
@@ -91,7 +95,7 @@ void ExtractSequence::outputfile(char *filename){
 		
 	} else cout << "Unable to open " << ofilename << endl;
 	
-}
+} */
 
 void ExtractSequence :: printSequences(){
 
@@ -155,4 +159,19 @@ int ExtractSequence :: getSize(){
 Sequence ExtractSequence :: operator[](int i){
     return Sequences[i];
 }
-
+void ExtractSequence :: addSequence(Sequence s){
+    Sequences.push_back(s);
+}
+void ExtractSequence :: remove1Seq(int s){
+    Sequences.erase(Sequences.begin()+s);
+}
+void ExtractSequence :: addGapstoAllEnds(int num){
+    for (int i = 0; i<Sequences.size(); i++) {
+        Sequences[i].addGaptoEnd(num);
+    }
+}
+void ExtractSequence :: addGapstoAll(int num){
+    for (int i = 0; i<Sequences.size(); i++) {
+        Sequences[i].addGap(num);
+    }
+}
