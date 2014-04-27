@@ -25,5 +25,8 @@ CodonFrequency.o: CodonFrequency.cpp CodonFrequency.h
 MinMax.o: MinMax.cpp MinMax.h
 	g++ -c MinMax.cpp
 
+Alignment.o: Alignment.cpp Alignment.h
+	g++ -c Alignment.cpp
+
 clean:
 	rm -f *.o main *.mm *.cf *.ps

@@ -42,6 +42,7 @@ ExtractSequence :: ExtractSequence(char *filename){
     // store the last sequence in the file.
     Sequence seq (headers[0],headers[1],sequence);
     Sequences.push_back(seq);
+<<<<<<< HEAD
 
     /* Sean here. Don't want to mess anything up for the end of the project, so adding the functionality
 	where it should be but commented out
@@ -53,10 +54,13 @@ ExtractSequence :: ExtractSequence(char *filename){
 	
     */  
 
+=======
+>>>>>>> 9da94c86f6ba6a65ac77e63c2f689fc1e626f746
     file.close();
 }
-
-
+ExtractSequence :: ExtractSequence(){
+    //codonFreq = NULL;
+} 
 // Returns vector of sequences
 vector<Sequence> ExtractSequence::getVectorOfSequences() {
 	return Sequences;
@@ -167,9 +171,20 @@ void ExtractSequence::addDomains(string filename,vector<Sequence> Seq_Vec)
 	
 }
 
-		
-
-
-
-
+void ExtractSequence :: addSequence(Sequence s){
+    Sequences.push_back(s);
+}
+void ExtractSequence :: remove1Seq(int s){
+    Sequences.erase(Sequences.begin()+s);
+}
+void ExtractSequence :: addGapstoAllEnds(int num){
+    for (int i = 0; i<Sequences.size(); i++) {
+        Sequences[i].addGaptoEnd(num);
+    }
+}
+void ExtractSequence :: addGapstoAll(int num){
+    for (int i = 0; i<Sequences.size(); i++) {
+        Sequences[i].addGap(num);
+    }
+}
 

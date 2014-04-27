@@ -20,8 +20,9 @@ using namespace std;
 class Sequence{
 public:
     Sequence(string, string, string);			// Constructor with parameter: name, description and sequence.
-    void addGap(int); 		// add gap after int
-    char operator[](int);
+    Sequence(); // default constructor
+    void addGap(int); 		// add gap before int
+    string operator[](int);
     void print();					// Prints name, description, legnth.
     void printSeq();			// Prints sequence
     string getSeqName();	// Accessor functions for name, seq, description, length
@@ -31,6 +32,10 @@ public:
     int getNumCodon();			// Calculates the number of codons if seq is of proper length
     char *location_ptr;			// Stores location on sequence
     void addDomain(Domain);
+    void setSeq(string);
+    void removeGapfront(); // remove the gap added to the beginning of sequence
+    void addGaptoEnd(int); // add number of gaps to the end of the sequence
+
     
 private:
     string seqName;				// Reference number for DNA/Protein sequence

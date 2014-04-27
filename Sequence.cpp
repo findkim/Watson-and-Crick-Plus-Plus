@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -19,6 +20,8 @@ Sequence :: Sequence(string name, string description, string sequence){
     seq = sequence;
     seqLength = seq.size();
 }
+
+Sequence :: Sequence(){};
 
 string Sequence::getSeq(){
 	return seq;
@@ -35,7 +38,7 @@ string Sequence::getSeqDescription(){
 
 
 int Sequence::getSeqLength(){
-	return seqLength;
+	return seq.size();
 }
 
 
@@ -59,18 +62,33 @@ void Sequence::printSeq(){
     cout << seq << endl;
 }
 
-char Sequence :: operator[](int i){
+string Sequence :: operator[](int i){
     // check out of range
     if (i<0 || i>seq.size()) {
 		if (i < 0 || i >= getSeqLength()) {
     		throw "Subscript out of range";
         }
     }
-    return seq[i];
+    stringstream ss;
+    string s;
+    ss << seq[i];
+    ss >> s;
+    return s;
 }
 // add gap after i
 void Sequence :: addGap(int i){
-    seq.insert(i+1,"-");
+    seq.insert(i,"-");
+}
+void Sequence :: setSeq(string s){
+    seq = s;
+}
+void Sequence :: removeGapfront(){
+    seq.erase(seq.begin());
+}
+void Sequence :: addGaptoEnd(int g){
+    for (int i = 0; i<g; i++) {
+        seq+="-";
+    }
 }
 
 //Add a Domain to the member vector Domains
