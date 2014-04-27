@@ -42,7 +42,6 @@ ExtractSequence :: ExtractSequence(char *filename){
     // store the last sequence in the file.
     Sequence seq (headers[0],headers[1],sequence);
     Sequences.push_back(seq);
-<<<<<<< HEAD
 
     /* Sean here. Don't want to mess anything up for the end of the project, so adding the functionality
 	where it should be but commented out
@@ -54,8 +53,6 @@ ExtractSequence :: ExtractSequence(char *filename){
 	
     */  
 
-=======
->>>>>>> 9da94c86f6ba6a65ac77e63c2f689fc1e626f746
     file.close();
 }
 ExtractSequence :: ExtractSequence(){
