@@ -43,9 +43,9 @@ ExtractSequence :: ExtractSequence(char *filename){
     Sequences.push_back(seq);
     file.close();
 }
-/*ExtractSequence :: ExtractSequence(){
+ExtractSequence :: ExtractSequence(){
     //codonFreq = NULL;
-} */
+} 
 // Returns vector of sequences
 vector<Sequence> ExtractSequence::getVectorOfSequences() {
 	return Sequences;

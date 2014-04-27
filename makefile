@@ -1,8 +1,7 @@
 all: main
 
-<<<<<<< HEAD
 main: main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o CodonFrequency.o MinMax.o Alignment.o
-	g++ main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o CodonFrequency.o Alignment.o -o main
+	g++ main.o Sequence.o ExtractSequence.o AlignmentCIGAR.o CodonFrequency.o MinMax.o Alignment.o -o main
 
 main.o: main.cpp
 	g++ -c main.cpp
