@@ -9,8 +9,11 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
+#include "Domain.h"
+
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -27,7 +30,7 @@ public:
     int getSeqLength();
     int getNumCodon();			// Calculates the number of codons if seq is of proper length
     char *location_ptr;			// Stores location on sequence
-
+    void addDomain(Domain);
     
 private:
     string seqName;				// Reference number for DNA/Protein sequence
@@ -35,5 +38,7 @@ private:
     string seq;				// Sequence of nucleotides or amino acids
     int seqLength;				// Length of string--converted string to int
     int numCodon;					// Numbers of codons if of proper length (mult of 3)
+    vector<Domain> Domains;		//domains present on the sequence	
+
 };
 #endif /* defined(____Sequence__) */

@@ -72,3 +72,12 @@ char Sequence :: operator[](int i){
 void Sequence :: addGap(int i){
     seq.insert(i+1,"-");
 }
+
+//Add a Domain to the member vector Domains
+void Sequence :: addDomain(Domain addDomain)
+{
+	Domains.push_back(addDomain);
+}
+
+
+
