@@ -29,7 +29,8 @@ class CodonFrequency {
 	public:
 		CodonFrequency(char *, vector<Sequence>);			
 			// Initializes codon vector with codon triplets and # of occurances
-		//~CodonFrequency();
+			// Calculates maps for min, max, avg frequency
+			// Creates output file for codon frequency
     vector<Sequence> removeSeq(vector <Sequence> &);
     	// Removes sequences from vector that are not proper length (n%3 ==0)
 		int getCodonCount();

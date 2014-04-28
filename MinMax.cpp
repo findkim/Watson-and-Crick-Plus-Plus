@@ -22,15 +22,22 @@ const int WINDOWSIZE = 17;
 
 using namespace std;
 
+// Calculates MinMax values for each codon and calls outputFileMM
 MinMax::MinMax(char *filename, vector<Sequence> seq)
 	: CodonFrequency(filename, seq) {
 
+
+	// Initializes maps with inherited maps from Codon Frequency
 	vector<float> minMap = getMinMap();
 	vector<float> maxMap = getMaxMap();
 	vector<float> avgMap = getAvgMap();
 	float *codonFreq = getCodonFreq();
 	int *codonToAAMap = getCodonToAAMap();
 	
+	
+	// Calculates min max for each sequence in vector of seqs
+	// Creates a vector of pairs for each sequence: name & vector of minmax values
+	// Prints to output file
 	for (int i = 0; i < seq.size(); i++) {
 
 		vector<float> minMaxSeq = 
@@ -47,7 +54,7 @@ MinMax::MinMax(char *filename, vector<Sequence> seq)
 }
 
 
-// Calculates the max or min frequency for a 17 codon window
+// Calculates the max or min frequency for one sequence using a 17 codon window
 vector<float> MinMax::calcMinMax(Sequence &seq, vector<float> &minMap, vector<float> &maxMap, vector<float> &avgMap, float *codonFreq, int *codonToAAMap) {
 
 	int numCodonRep, AA;
@@ -94,8 +101,10 @@ vector<float> MinMax::calcMinMax(Sequence &seq, vector<float> &minMap, vector<fl
 //		cout << "avgFreqWindowAvg " << avgFreqWindowAvg << endl;
 //		cout << "actualFreqWindowAvg " << actualFreqWindowAvg << endl;
 		
+		// Calculates percentMax value
 		percentMax = (actualFreqWindowAvg - avgFreqWindowAvg) / (maxFreqWindowAvg - avgFreqWindowAvg) * 100;
 		
+		// If percentMax value is negative, calculates Min value and adds Min value to vector
 		if (percentMax < 0) {
 			percentMin = (-1) * (avgFreqWindowAvg - actualFreqWindowAvg) / (avgFreqWindowAvg - minFreqWindowAvg) * 100;
 			MinMaxValues.push_back(percentMin);
@@ -118,6 +127,8 @@ void MinMax::outputFileMM(char *file, vector< pair< string, vector<float> > > mi
 	
 	if (ofile.is_open()) {
 	
+		// For each sequence in vector, print description and vector of MinMax values
+		// Separated by tabs
 		for (int i = 0; i < minMaxSequences.size(); i++) {
 
 			ofile << minMaxSequences[i].first;

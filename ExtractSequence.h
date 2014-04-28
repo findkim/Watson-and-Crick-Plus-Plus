@@ -36,5 +36,8 @@ class ExtractSequence{
 private:
     vector<Sequence> Sequences; // vector of Sequence object
     vector<string> headers; // store name and description.
+
+    void addDomains(string, vector<Sequence>); //Takes a text file and adds Domains to their respective Sequences	
+
 };
 #endif /* defined(____ExtractSequence__) */

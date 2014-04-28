@@ -9,6 +9,7 @@
 
 #include "ExtractSequence.h"
 #include "Sequence.h"
+#include "Domain.h"
 #include <iostream>
 #include <string>
 #include "string.h"
@@ -42,6 +43,17 @@ ExtractSequence :: ExtractSequence(char *filename){
     // store the last sequence in the file.
     Sequence seq (headers[0],headers[1],sequence);
     Sequences.push_back(seq);
+
+    /* Sean here. Don't want to mess anything up for the end of the project, so adding the functionality
+	where it should be but commented out
+
+    addDomains(filename, Sequences);
+
+    filename is a string, which is the filename of the txt file containing the info on the Domains. I'm assuming
+    it is formatted the way the file Aaron sent me was. 
+	
+    */  
+
     file.close();
 }
 ExtractSequence :: ExtractSequence(){}
@@ -109,6 +121,51 @@ int ExtractSequence :: getSize(){
 Sequence ExtractSequence :: operator[](int i){
     return Sequences[i];
 }
+
+//To (most likely) be used in the constructor, takes a filename for the domains, and 
+//creates a vector of domains, then adds them to a sequence if their ID's match
+void ExtractSequence::addDomains(string filename,vector<Sequence> Seq_Vec)
+{
+	vector<Domain> domains2Add;
+
+	ifstream file;
+	file.open(filename.c_str());
+
+	while(!file.eof())
+	{
+		string buffer;
+
+		getline(file,buffer);
+		
+		char ID[30];
+		char Type[10];
+		int start,end;
+
+		sscanf(buffer.c_str(),"%s %*[^:]:%s %*s %d-%d",ID,Type,&start,&end);
+		
+		string ID_str(ID);
+		string Type_str(Type);
+		Domain tempDom(ID,Type,start,end);
+		
+		domains2Add.push_back(tempDom);
+	}
+
+	//Not the most efficient way to do this, but I'll leave it up for future optimization if necessary.
+	//Better way would be to use a map with ID as key, but that would require me changing things I'm not
+	//comfortable with changing. -Sean
+	for(vector<Sequence>::iterator seq_it= Seq_Vec.begin(); seq_it != Seq_Vec.end(); ++seq_it)
+	{
+		for(vector<Domain>::iterator dom_it= domains2Add.begin(); dom_it != domains2Add.end() ; ++dom_it)
+		{
+			if((*seq_it).getSeqName()==(*dom_it).getID())
+			{
+				(*seq_it).addDomain(*dom_it);
+			}
+		}
+	}
+	
+}
+
 void ExtractSequence :: addSequence(Sequence s){
     Sequences.push_back(s);
 }
@@ -125,3 +182,4 @@ void ExtractSequence :: addGapstoAll(int num){
         Sequences[i].addGap(num);
     }
 }
+
