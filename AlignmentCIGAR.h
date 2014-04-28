@@ -3,7 +3,8 @@
 //  
 //
 //  Created by Xuanyi Li on 14-3-21.
-//
+
+//  transform an alignment into cigar string
 //  
 
 #ifndef ____AlignmentCIGAR__
@@ -20,7 +21,7 @@ using namespace std;
 class AlignmentCIGAR{
 public:
     AlignmentCIGAR(char *filename);
-    int checkAligned(); // check whether the vector of sequence is aligned already
+    int checkAligned(); // check whether the vector of sequence is aligned 
     string cigarOneSeq(int); // Compare one Sequence to the reference and return this cigar representation.
     void setCigar(); // transform all the sequences in ExtractSequence into cigar string
     void printCigar(); // print the cigar string for the alignment

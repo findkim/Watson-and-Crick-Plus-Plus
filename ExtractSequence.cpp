@@ -3,8 +3,9 @@
 //  
 //
 //  Created by Xuanyi Li on 14-3-18.
-//
-//
+
+//  Read in fasta file and store the sequences in a vector of sequences
+//  get functions; add gaps to all sequences in the vector.
 
 #include "ExtractSequence.h"
 #include "Sequence.h"
@@ -43,9 +44,8 @@ ExtractSequence :: ExtractSequence(char *filename){
     Sequences.push_back(seq);
     file.close();
 }
-ExtractSequence :: ExtractSequence(){
-    //codonFreq = NULL;
-} 
+ExtractSequence :: ExtractSequence(){}
+
 // Returns vector of sequences
 vector<Sequence> ExtractSequence::getVectorOfSequences() {
 	return Sequences;
@@ -59,7 +59,6 @@ void ExtractSequence :: printSequences() {
     Sequences[i].printSeq();
     cout << "-----------------------" << endl;
   }
-// cout << "Number of sequences: " << Sequences.size() << endl;
 }
 
 
@@ -99,7 +98,6 @@ Sequence ExtractSequence :: getSequence (string name){
             return Sequences[i];
         }
     }
-    // throw exception????
 }
 
 

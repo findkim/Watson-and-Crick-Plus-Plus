@@ -3,8 +3,9 @@
 //  
 //
 //  Created by Xuanyi Li on 14-3-8.
-//
-//
+
+//  Store name, description and actual sequence (get and set functions)
+//  add or delete gaps in the sequence
 
 #include "Sequence.h"
 #include <iostream>
@@ -41,7 +42,6 @@ int Sequence::getSeqLength(){
 	return seq.size();
 }
 
-
 int Sequence::getNumCodon(){
 	if (getSeqLength()%3 == 0)
 		return getSeqLength()/3;
@@ -69,19 +69,21 @@ string Sequence :: operator[](int i){
     		throw "Subscript out of range";
         }
     }
+    // convert a char to a string
     stringstream ss;
     string s;
     ss << seq[i];
     ss >> s;
     return s;
 }
-// add gap after i
+// add gap before i
 void Sequence :: addGap(int i){
     seq.insert(i,"-");
 }
 void Sequence :: setSeq(string s){
     seq = s;
 }
+// remove the gap added to the front (check if there is a gap in the alignment class)
 void Sequence :: removeGapfront(){
     seq.erase(seq.begin());
 }

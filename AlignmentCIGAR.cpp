@@ -3,7 +3,8 @@
 //  
 //
 //  Created by 李 萱伊 on 14-3-21.
-//
+
+//  transform an alignment into cigar string
 //
 
 #include "AlignmentCIGAR.h"
@@ -16,7 +17,7 @@
 using namespace std;
 
 AlignmentCIGAR :: AlignmentCIGAR(char *filename):sequences(filename){
-    ref = sequences[0].getSeq(); // always set the first Sequence as reference (**change later)
+    ref = sequences[0].getSeq(); // always set the first Sequence as reference
 }
 int AlignmentCIGAR :: checkAligned(){
     if (sequences.getSize()==1) {
@@ -37,7 +38,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
     string c;
     string temp; // for storing cigar segments
     int match = 1, insertion = 1, deletion = 1, soft = 1;
-    int change = 0; // keep track of what was incremented last time: 1: match  2: insertion  3: deletion
+    int change = 0; // keep track of what was incremented last time: 1: match  2: insertion  3: deletion 4: soft clipping
     if (i == 0) {
         cout << "WARNING: Sequence is the reference." << endl;
         return c;
@@ -45,10 +46,12 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
     // append to cigar string when the state changes.
     for (int j = 0; j<ref.size(); j++) {
         ostringstream oss;
+        // both sequence and reference have nucleotide
         if (sequences[i][j]!="-" && ref[j]!='-') {
             if (change == 1) {
-                match ++;
+                match ++; // increment
             }
+            // all other cases, add to cigar string and change to match state
             else if (change == 2){
                 oss << temp << insertion;
                 c.append(oss.str());
@@ -69,6 +72,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
             }
             change = 1;
         }
+        // sequence has nucleotide and reference has gap
         if(sequences[i][j]!="-" && ref[j]=='-'){
             if (change == 1) {
                 oss << temp << match;
@@ -77,7 +81,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
                 match = 1;
             }
             else if (change == 2){
-                insertion ++;
+                insertion ++; // increment
             }
             else if (change == 3){
                 oss << temp << deletion;
@@ -93,6 +97,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
             }
             change = 2;
         }
+        // sequence has gap and reference has nucleotide
         if (sequences[i][j]=="-" && ref[j]!='-') {
             if (change == 1) {
                 oss << temp << match;
@@ -107,7 +112,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
                 insertion = 1;
             }
             else if (change == 3){
-                deletion ++;
+                deletion ++; // increment
             }
             else if (change == 4){
                 oss << temp << soft;
@@ -117,6 +122,7 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
             }
             change = 3;
         }
+        // both sequence and reference has gaps
         if (sequences[i][j]=="-" && ref[j]=='-') {
             if (change == 1) {
                 oss << temp << match;
@@ -137,12 +143,13 @@ string AlignmentCIGAR :: cigarOneSeq(int i){
                 deletion = 1;
             }
             else if (change == 4){
-                soft ++;
+                soft ++; // increment
             }
             change = 4;
         }
         temp.clear();
     }
+    // the last case
     ostringstream oss;
     if (change == 1) {
         oss << temp << match;

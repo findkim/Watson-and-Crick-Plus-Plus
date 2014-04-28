@@ -2,9 +2,11 @@
 //  Alignment.h
 //  
 //
-//  Created by 李 萱伊 on 14-4-8.
-//
-//
+//  Created by Xuanyi Li on 14-4-8.
+
+//  calculate the pairwise distance of all the sequences to be aligned and find the center star
+//  align all sequences to the center sequence and update all the aligned sequences
+
 
 #ifndef ____Alignment__
 #define ____Alignment__
@@ -25,7 +27,6 @@ public:
     void write_distance();// fill the 2d vector distance
     int findCenterStar();
     void alignAll(); // multiple sequence alignment
-    void printTables(); //TEST
     
 private:
     ExtractSequence seqs; // store string representation of sequences to be aligned

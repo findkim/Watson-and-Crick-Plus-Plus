@@ -3,8 +3,9 @@
 //  
 //
 //  Created by Xuanyi Li on 14-3-8.
-//
-//
+
+//  Store name, description and actual sequence (get and set functions)
+//  add or delete gaps in the sequence
 
 #ifndef SEQUENCE_H
 #define SEQUENCE_H

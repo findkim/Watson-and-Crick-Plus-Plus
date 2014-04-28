@@ -2,9 +2,10 @@
 //  Alignment.cpp
 //  
 //
-//  Created by 李 萱伊 on 14-4-8.
-//
-//
+//  Created by Xuanyi Li on 14-4-8.
+
+//  calculate the pairwise distance of all the sequences to be aligned and find the center star
+//  align all sequences to the center sequence and update all the aligned sequences
 
 #include "Alignment.h"
 #include "ExtractSequence.h"
@@ -54,11 +55,13 @@ void Alignment :: computeTables(int t){
             else{
                 diagonal = score[i-1][j-1] - 1;
             }
+            // get the max score from the three directions
             vector<int> scores;
             scores.push_back(diagonal);
             scores.push_back(horizontal);
             scores.push_back(vertical);
             int maxscore = max(scores);
+            // store the direction of the max score
             if (scores[maxscore] == diagonal) {
                 rdirection.push_back(0);
             }
@@ -75,19 +78,18 @@ void Alignment :: computeTables(int t){
     }
 }
 void Alignment :: updateAlign(int t){
-    /*if (centerStar[0]=="-") {
-        centerStar.removeGapfront();
-    } */
     int r = seqs[t].getSeqLength();
     int c = centerStar.getSeqLength();
-    // table is r+1 * c+1
+    // table is r+1 * c+1, so add a gap to the beginning
     Sequence se = seqs[t];
     se.addGap(0);
     centerStar.addGap(0);
     string a;
     string b;
+    // insert the last nucleotide
     a.insert(0,se[r]);
     b.insert(0,centerStar[c]);
+    // traceback
     int i = r;
     int j = c;
     int d = direction[i][j];
@@ -121,7 +123,7 @@ void Alignment :: updateAlign(int t){
         i = newi;
         j = newj;
     }
-    // PROBLEM
+    //compare b (new center star) and starAlign (old center star)
     for (int i = 0; i<b.size() && i < starAlign.size(); i++) {
         // new gap in the aligned
         if (b[i]=='-' && starAlign[i]!='-') {
@@ -134,6 +136,7 @@ void Alignment :: updateAlign(int t){
             a.insert(i,"-");
         }
     }
+    // add gaps to the end of the shorter sequence if one is longer than the other
     if (b.size()>starAlign.size()) {
         int num = b.size()-starAlign.size();
         for (int i = 0; i<num; i++) {
@@ -149,23 +152,20 @@ void Alignment :: updateAlign(int t){
     }
     Sequence s = seqs[t];
     s.setSeq(a);
-    aligned.addSequence(s);
-    centerStar.setSeq(b);
+    aligned.addSequence(s); // add the newly aligned sequence to the vector
+    centerStar.setSeq(b); // set b as the new sequence for center star
 }
 void Alignment :: printAlignment(){
-    // center star
+    // print center star
     cout << centerStar.getSeqName() << "|" <<centerStar.getSeqDescription() << "    ";
     centerStar.printSeq();
     cout << endl;
+    // print all other aligned sequences
     for (int i = 0; i<aligned.getSize(); i++) {
         cout << aligned[i].getSeqName() << "|" <<aligned[i].getSeqDescription() << "    ";
         aligned[i].printSeq();
         cout << endl;
     }
-    /*
-    for (int i = 0; i<aligned.getSize(); i++) {
-        cout << aligned[i].getSeqLength() << "    ";
-    } */
     cout << endl;
 }
 int Alignment :: max(vector<int> x){
@@ -194,6 +194,7 @@ int Alignment :: compute_distance(int i, int j){
     int score = 0;
     int k = 0;
     while (k<r && k<c) {
+        // if the two nucleotides are different, distance increment
         if (seqs[i][k] != seqs[j][k]) {
             score ++;
         }
@@ -213,6 +214,7 @@ void Alignment :: write_distance(){
 }
 int Alignment :: findCenterStar(){
     vector<int> sumofdistance; // sum of distance from one string to all other strings
+    // center star is the one closest to all other sequences
     for (int i = 0; i<distance.size(); i++) {
         int sum = 0;
         for (int j = 0; j<distance[i].size(); j++) {
@@ -230,22 +232,5 @@ void Alignment :: alignAll(){
         computeTables(i);
         updateAlign(i);
     }
-    //centerStar.setSeq(starAlign);
     
-}
-void Alignment :: printTables(){
-    cout << "SCORE" << endl;
-    for (int i = 0; i<score.size(); i++) {
-        for (int j = 0; j<score[i].size(); j++) {
-            cout << score[i][j] << " ";
-        }
-        cout << endl<<endl;
-    }
-    cout << "DIRECTION" << endl;
-    for (int i = 0; i<direction.size(); i++) {
-        for (int j = 0; j<direction[i].size(); j++) {
-            cout << direction[i][j] << " ";
-        }
-        cout << endl;
-    }
 }

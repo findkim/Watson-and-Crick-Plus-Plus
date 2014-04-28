@@ -3,8 +3,9 @@
 //  
 //
 //  Created by Xuanyi Li on 14-3-18.
-//
-//
+
+//  Read in fasta file and store the sequences in a vector of sequences
+//  get functions; add gaps to all sequences in the vector.
 
 #ifndef ____ExtractSequence__
 #define ____ExtractSequence__

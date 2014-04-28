@@ -34,47 +34,10 @@ int main() {
     Alignment testAlign("ultimateORFS3710.fasta");
     testAlign.alignAll();
     testAlign.printAlignment();
-    AlignmentCIGAR testCigar("ultimateORFS18608.fasta");
+    AlignmentCIGAR testCigar("ultimateORFS3710_aligned.fasta"); 
     testCigar.setCigar();
     testCigar.printCigar();
     //testAlign.printTables(); // TEST
-    
-    /*string a1 = "ATCT--TGA";
-    string a = "-A-C-T-G-";
-    string b = "A--CT-G";
-    string b1 = "TC-G-TA";
-    cout << a << endl;
-    cout << b << endl;
-    cout << a1 << endl;
-    cout << b1 << endl;
-    for (int i = 0; i<a.size() && i<b.size(); i++) {
-        if (a[i]=='-' && b[i]!='-') {
-            b.insert(i,"-");
-            b1.insert(i,"-");
-        }
-        if (a[i]!='-' && b[i]=='-') {
-            a.insert(i,"-");
-            a1.insert(i,"-");
-        }
-    }
-    if (a.size()>b.size()) {
-        int num = a.size()-b.size();
-        for (int i = 0; i<num; i++) {
-            b+="-";
-            b1+="-";
-        }
-    }
-    else{
-        int num = b.size()-a.size();
-        for (int i = 0; i<num; i++) {
-            a+="-";
-            a1+="-";
-        }
-    }
-    cout << a << endl;
-    cout << b << endl;
-    cout << a1 << endl;
-    cout << b1 << endl; */
 //    testCigar.setCigar();
 //    testCigar.printCigar();
     //NeighborJoining testNJ("ultimateORFS18608.fasta");
